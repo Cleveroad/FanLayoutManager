@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+    defaultConfig {
+        applicationId "com.cleveroad.testrecycler"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+//    compile 'com.android.support:appcompat-v7:24.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
+    testCompile 'junit:junit:4.12'
+
+    //versions
+    def supportLibraryVersion = '24.1.0'
+
+    // support library
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$supportLibraryVersion"
+
+    // lorem ipsum
+    compile 'com.thedeanda:lorem:2.0'
+    compile project(path: ':library')
+}

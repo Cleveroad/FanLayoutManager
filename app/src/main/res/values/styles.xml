@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="SportCardStyle">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SportCardStyle.SportTile">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="SportCardStyle.SportSubtitle">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="SportCardStyle.SportRound">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="SportCardStyle.Time">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="SportCardStyle.DayPart">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>
+

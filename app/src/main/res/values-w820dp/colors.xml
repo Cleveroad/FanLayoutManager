@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="dark_cerulean">#134785</color>
+    <color name="dodger_blue">#249ff4</color>
+    <color name="mantis">#55b859</color>
+    <color name="dim_gray">#6f6f6f</color>
+    <color name="manatee">#979797</color>
+    <color name="dark_orchid">#a62ab9</color>
+    <color name="timberwolf">#d8d8d8</color>
+    <color name="portland_orange">#fc5f23</color>
+    <color name="usc_gold">#fec804</color>
+    <color name="white">#ffffff</color>
+</resources>
+
