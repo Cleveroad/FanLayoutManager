@@ -1,4 +1,4 @@
-package com.cleveroad.testrecycler;
+package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.cleveroad.testrecycler.R;
+import com.cleveroad.testrecycler.models.SportCardModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -84,6 +87,10 @@ public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.Sp
 
     public void setItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
+    }
+
+    public SportCardModel getModelByPos(int pos) {
+        return items.get(pos);
     }
 
     public interface OnItemClickListener {

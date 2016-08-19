@@ -1,4 +1,4 @@
-package com.cleveroad.testrecycler;
+package com.cleveroad.testrecycler.models;
 
 public class ArticleModel {
     private String title;

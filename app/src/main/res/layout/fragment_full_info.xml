@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarFragmentInfo"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:titleTextColor="@color/white"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabMainGroups"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:tabTextColor="@color/white"
+        app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/white"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        tools:layout_height="100dp"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
+
+
+</LinearLayout>

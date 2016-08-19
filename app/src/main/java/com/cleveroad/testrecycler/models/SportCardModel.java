@@ -1,7 +1,10 @@
-package com.cleveroad.testrecycler;
+package com.cleveroad.testrecycler.models;
 
-public class SportCardModel {
-    public String sportTitle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SportCardModel implements Parcelable {
+    private String sportTitle;
     private String sportSubtitle;
     private String sportRound;
 
@@ -53,6 +56,50 @@ public class SportCardModel {
     public int getBackgroundColorResId() {
         return backgroundColorResId;
     }
+
+    /**
+     * constructor for Parcelable implementation
+     * @param parcel
+     */
+    private SportCardModel(Parcel parcel) {
+        sportTitle = parcel.readString();
+        sportSubtitle = parcel.readString();
+        sportRound = parcel.readString();
+        imageResId = parcel.readInt();
+        time = parcel.readString();
+        dayPart = parcel.readString();
+        backgroundColorResId = parcel.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(sportTitle);
+        parcel.writeString(sportSubtitle);
+        parcel.writeString(sportRound);
+        parcel.writeInt(imageResId);
+        parcel.writeString(time);
+        parcel.writeString(dayPart);
+        parcel.writeInt(backgroundColorResId);
+    }
+
+    @SuppressWarnings("unused")
+    public final static Parcelable.Creator<SportCardModel> CREATOR = new Parcelable.Creator<SportCardModel>() {
+
+        @Override
+        public SportCardModel createFromParcel(Parcel parcel) {
+            return new SportCardModel(parcel);
+        }
+
+        @Override
+        public SportCardModel[] newArray(int size) {
+            return new SportCardModel[size];
+        }
+    };
 
     /**
      * {@code SportCardModel} builder static inner class.

@@ -1,6 +1,7 @@
 package com.cleveroad.fanlayoutmanager;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +44,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
     private boolean isDeselectAnimationInProcess = false;
     private boolean isWaitingToSelectAnimation = false;
     private boolean isWaitingToDeselectAnimation = false;
+    private boolean isSelectedItemStraightened = false;
 
     public FanLayoutManager(@NonNull Context context) {
         this(context, null);
@@ -551,4 +554,112 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
         }
         return infoViews;
     }
+
+
+    // TODO: 19.08.16 migrate to AnimationHelper
+    private void straightenView(View view, int position, @Nullable Animator.AnimatorListener listener) {
+        if(view != null) {
+            ObjectAnimator viewObjectAnimator = ObjectAnimator.ofFloat(view,
+                    "rotation", viewRotationsMap.get(position).floatValue(), 0f);
+            viewObjectAnimator.setDuration(300);
+            viewObjectAnimator.setInterpolator(new DecelerateInterpolator());
+            if(listener != null) {
+                viewObjectAnimator.addListener(listener);
+            }
+            viewObjectAnimator.start();
+        }
+
+    }
+
+
+
+    private void destraightenView(View view, int position, @Nullable Animator.AnimatorListener listener) {
+        if(view != null) {
+            ObjectAnimator viewObjectAnimator = ObjectAnimator.ofFloat(view,
+                    "rotation", 0f, viewRotationsMap.get(position).floatValue());
+            viewObjectAnimator.setDuration(300);
+            viewObjectAnimator.setInterpolator(new DecelerateInterpolator());
+            if(listener != null) {
+                viewObjectAnimator.addListener(listener);
+            }
+            viewObjectAnimator.start();
+        }
+
+    }
+
+    public void straightenSelectedItem() {
+
+        if(selectedViewPosition != DEFAULT_NON_SELECTED_ITEM_POSITION && !isSelectAnimationInProcess &&
+                !isDeselectAnimationInProcess && !isSelectedItemStraightened) {
+            View viewToRotate = null;
+            for (int count = getChildCount(), i = 0; i < count; i++) {
+                View view = getChildAt(i);
+                if (selectedViewPosition == getPosition(view)) {
+                    viewToRotate = view;
+                }
+            }
+            if(viewToRotate != null) {
+                straightenView(viewToRotate, selectedViewPosition, null);
+                isSelectedItemStraightened = true;
+            }
+
+        }
+    }
+
+    public void straightenSelectedItem(Animator.AnimatorListener listener) {
+
+        if(selectedViewPosition != DEFAULT_NON_SELECTED_ITEM_POSITION && !isSelectAnimationInProcess &&
+                !isDeselectAnimationInProcess && !isSelectedItemStraightened) {
+            View viewToRotate = null;
+            for (int count = getChildCount(), i = 0; i < count; i++) {
+                View view = getChildAt(i);
+                if (selectedViewPosition == getPosition(view)) {
+                    viewToRotate = view;
+                }
+            }
+            if(viewToRotate != null) {
+                straightenView(viewToRotate, selectedViewPosition, listener);
+                isSelectedItemStraightened = true;
+            }
+
+        }
+    }
+
+    public void destraightenSelectedItem(Animator.AnimatorListener listener) {
+
+        if(selectedViewPosition != DEFAULT_NON_SELECTED_ITEM_POSITION && !isSelectAnimationInProcess &&
+                !isDeselectAnimationInProcess && isSelectedItemStraightened) {
+            View viewToRotate = null;
+            for (int count = getChildCount(), i = 0; i < count; i++) {
+                View view = getChildAt(i);
+                if (selectedViewPosition == getPosition(view)) {
+                    viewToRotate = view;
+                }
+            }
+            if(viewToRotate != null) {
+                destraightenView(viewToRotate, selectedViewPosition, listener);
+                isSelectedItemStraightened = false;
+            }
+
+        }
+    }
+
+    public void destraightenSelectedItem() {
+
+        if(selectedViewPosition != DEFAULT_NON_SELECTED_ITEM_POSITION && !isSelectAnimationInProcess &&
+                !isDeselectAnimationInProcess && isSelectedItemStraightened) {
+            View viewToRotate = null;
+            for (int count = getChildCount(), i = 0; i < count; i++) {
+                View view = getChildAt(i);
+                if (selectedViewPosition == getPosition(view)) {
+                    viewToRotate = view;
+                }
+            }
+            if(viewToRotate != null) {
+                destraightenView(viewToRotate, selectedViewPosition, null);
+                isSelectedItemStraightened = false;
+            }
+        }
+    }
+
 }

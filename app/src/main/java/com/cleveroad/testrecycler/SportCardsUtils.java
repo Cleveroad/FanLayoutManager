@@ -1,5 +1,7 @@
 package com.cleveroad.testrecycler;
 
+import com.cleveroad.testrecycler.models.SportCardModel;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
