@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,32 +6,87 @@
     android:orientation="vertical"
     tools:context="com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarFragmentInfo"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:titleTextColor="@color/white"/>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabMainGroups"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:tabTextColor="@color/white"
-        app:tabSelectedTextColor="@color/white"
-        app:tabIndicatorColor="@color/white"/>
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/ivPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        tools:layout_height="100dp"/>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vpContent"
+    <LinearLayout
+        android:id="@+id/contentLay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:orientation="vertical"
+        tools:context="com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarFragmentInfo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:titleTextColor="@color/white"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabMainGroups"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:tabTextColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            tools:layout_height="100dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/splashLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:background="@color/dim_gray">
+
+        <RelativeLayout
+            android:id="@+id/rlTitleContainer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivSportPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvTime"
+                style="@style/SportCardStyle.splashTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                tools:text="3:00" />
+
+            <TextView
+                android:id="@+id/tvDayPart"
+                style="@style/SportCardStyle.splashDayPart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTime"
+                android:layout_centerHorizontal="true"
+                tools:text="PM" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

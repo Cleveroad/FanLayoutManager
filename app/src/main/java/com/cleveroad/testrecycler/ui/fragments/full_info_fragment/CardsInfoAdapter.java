@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.cleveroad.testrecycler.models.SportCardModel;
 import com.cleveroad.testrecycler.ui.fragments.full_info_inner_fragment.FullInfoInnerFragment;
 
-public class CardsInfoAdapter extends FragmentStatePagerAdapter {
+class CardsInfoAdapter extends FragmentStatePagerAdapter {
 
     private SportCardModel sportCardModel;
     private String[] titles = {"MEN", "WOMEN", "ATHLETES"};
 
-    public CardsInfoAdapter(FragmentManager fm, SportCardModel sportCardModel) {
+    CardsInfoAdapter(FragmentManager fm, SportCardModel sportCardModel) {
         super(fm);
         this.sportCardModel = sportCardModel;
     }

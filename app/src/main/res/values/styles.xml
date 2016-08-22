@@ -17,9 +17,19 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="SportCardStyle.SportSplashTile">
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textSize">12sp</item>-->
+    </style>
+
     <style name="SportCardStyle.SportSubtitle">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="SportCardStyle.SportSplashSubtitle">
+        <item name="android:textStyle">normal</item>
+        <!--<item name="android:textSize">10sp</item>-->
     </style>
 
     <style name="SportCardStyle.SportRound">
@@ -27,14 +37,29 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="SportCardStyle.SportSplashRound">
+        <item name="android:textStyle">italic</item>
+        <!--<item name="android:textSize">10sp</item>-->
+    </style>
+
     <style name="SportCardStyle.Time">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="SportCardStyle.splashTime">
+        <item name="android:textStyle">normal</item>
+        <!--<item name="android:textSize">12sp</item>-->
+    </style>
+
     <style name="SportCardStyle.DayPart">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="SportCardStyle.splashDayPart">
+        <item name="android:textStyle">normal</item>
+        <!--<item name="android:textSize">12sp</item>-->
     </style>
 
 </resources>

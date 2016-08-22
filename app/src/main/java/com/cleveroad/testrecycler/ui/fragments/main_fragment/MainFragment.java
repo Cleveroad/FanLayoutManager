@@ -29,7 +29,7 @@ public class MainFragment extends Fragment {
     private FanLayoutManager fanLayoutManager;
 
     private int selectedCardPos = -1;
-    private final static int ANIMATION_DELAY = 700;
+    private final static int ANIMATION_DELAY = 500;
 
     public static MainFragment newInstance() {
         return new MainFragment();

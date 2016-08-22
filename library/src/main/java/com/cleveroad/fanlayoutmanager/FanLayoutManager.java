@@ -561,7 +561,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
         if(view != null) {
             ObjectAnimator viewObjectAnimator = ObjectAnimator.ofFloat(view,
                     "rotation", viewRotationsMap.get(position).floatValue(), 0f);
-            viewObjectAnimator.setDuration(300);
+            viewObjectAnimator.setDuration(150);
             viewObjectAnimator.setInterpolator(new DecelerateInterpolator());
             if(listener != null) {
                 viewObjectAnimator.addListener(listener);
@@ -577,7 +577,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
         if(view != null) {
             ObjectAnimator viewObjectAnimator = ObjectAnimator.ofFloat(view,
                     "rotation", 0f, viewRotationsMap.get(position).floatValue());
-            viewObjectAnimator.setDuration(300);
+            viewObjectAnimator.setDuration(150);
             viewObjectAnimator.setInterpolator(new DecelerateInterpolator());
             if(listener != null) {
                 viewObjectAnimator.addListener(listener);
