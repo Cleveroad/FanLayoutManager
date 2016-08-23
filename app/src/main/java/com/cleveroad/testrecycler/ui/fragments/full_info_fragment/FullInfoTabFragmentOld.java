@@ -1,5 +1,6 @@
 package com.cleveroad.testrecycler.ui.fragments.full_info_fragment;
 
+
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +21,7 @@ import com.cleveroad.testrecycler.R;
 import com.cleveroad.testrecycler.models.SportCardModel;
 
 
-public class FullInfoTabFragment extends Fragment {
+public class FullInfoTabFragmentOld extends Fragment {
 
     private static final String SRORT_CARD_MODEL_ARGS = "sportCardModelArg";
     private static final String POSITION_NAME_ARG = "positionNameArg";
@@ -41,8 +42,8 @@ public class FullInfoTabFragment extends Fragment {
     private LinearLayout contentLayout;
 
 
-    public static FullInfoTabFragment newInstance(SportCardModel sportCardModel, @Nullable String transitionTag) {
-        FullInfoTabFragment fragment = new FullInfoTabFragment();
+    public static FullInfoTabFragmentOld newInstance(SportCardModel sportCardModel, @Nullable String transitionTag) {
+        FullInfoTabFragmentOld fragment = new FullInfoTabFragmentOld();
         Bundle args = new Bundle();
         args.putParcelable(SRORT_CARD_MODEL_ARGS, sportCardModel);
         args.putString(POSITION_NAME_ARG, transitionTag);
@@ -67,6 +68,9 @@ public class FullInfoTabFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_full_info, container, false);
         ivPhoto = (AppCompatImageView) root.findViewById(R.id.ivPhoto);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && transitionTag != null) {
+            ivPhoto.setTransitionName(transitionTag);
+        }
         return root;
     }
 
@@ -79,7 +83,7 @@ public class FullInfoTabFragment extends Fragment {
         tvDayPart = (TextView) view.findViewById(R.id.tvDayPart);
         splashLayout = (LinearLayout) view.findViewById(R.id.splashLay);
         rlTitleContainer = (RelativeLayout) view.findViewById(R.id.rlTitleContainer);
-        ivPhoto = (AppCompatImageView) view.findViewById(R.id.ivPhoto);
+
         ivSportPreview.setImageResource(sportCardModel.getImageResId());
         tvTime.setText(sportCardModel.getTime());
         tvDayPart.setText(sportCardModel.getDayPart());

@@ -6,14 +6,11 @@
     android:orientation="vertical"
     tools:context="com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment">
 
-
-
     <LinearLayout
         android:id="@+id/contentLay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment">
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarFragmentInfo"
@@ -29,11 +26,12 @@
             app:tabSelectedTextColor="@color/white"
             app:tabIndicatorColor="@color/white"/>
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivPhoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:transitionName="shared"
             tools:layout_height="100dp"/>
 
         <android.support.v4.view.ViewPager
@@ -50,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         android:background="@color/white"
         tools:background="@color/dim_gray">
 
@@ -62,6 +61,7 @@
             android:id="@+id/ivSportPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:adjustViewBounds="true"/>
 
         <RelativeLayout

@@ -7,10 +7,6 @@
     android:background="@color/white"
     tools:context="com.cleveroad.testrecycler.ui.activities.main_activity.MainActivity">
 
-    <fragment
-        android:name="com.cleveroad.testrecycler.ui.fragments.main_fragment.MainFragment"
-        android:id="@+id/mainFragment"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+
 </FrameLayout>

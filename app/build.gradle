@@ -33,11 +33,11 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support:cardview-v7:$supportLibraryVersion"
+    compile "com.android.support:support-v4:$supportLibraryVersion"
 
     // lorem ipsum
     compile project(path: ':library')
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.thedeanda:lorem:2.0'
-    compile 'com.android.support:support-v4:24.2.0'
     testCompile 'junit:junit:4.12'
 }
