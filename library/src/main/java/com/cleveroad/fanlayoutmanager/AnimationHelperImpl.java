@@ -110,6 +110,7 @@ class AnimationHelperImpl implements AnimationHelper {
 
             }
         });
+
         bounceAnimator.start();
     }
 
