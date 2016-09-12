@@ -28,7 +28,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:src="@drawable/logo"
-        android:layout_below="@+id/toolbarMain"/>
+        android:layout_below="@+id/toolbarMain"
+        android:clickable="true"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"

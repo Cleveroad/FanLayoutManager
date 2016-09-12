@@ -89,29 +89,29 @@ class AnimationHelperImpl implements AnimationHelper {
 
         bounceAnimator.setDuration(ANIMATION_SHIFT_VIEWS_DURATION);
         bounceAnimator.setStartDelay(delay + ANIMATION_SHIFT_VIEWS_DELAY_THRESHOLD);
-        bounceAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
         bounceAnimator.start();
     }
+
+//    @Override
+//    public void shiftAllViews(@NonNull final Collection<ViewAnimationInfo> views, int delay, @NonNull final ShiftViewListener listener) {
+//        ValueAnimator bounceAnimator = ValueAnimator.ofFloat(0F, 1F);
+//        bounceAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+//                float value = (float) valueAnimator.getAnimatedValue();
+//                for (ViewAnimationInfo info : views) {
+//                    int left = (int) (info.startLeft + value * (info.finishLeft - info.startLeft));
+//                    int right = (int) (info.startRight + value * (info.finishRight - info.startRight));
+//                    listener.layoutDecorated(info.view, left, info.top, right, info.bottom);
+//                }
+//                listener.updateArcViewPositions();
+//            }
+//        });
+//
+//        bounceAnimator.setDuration(ANIMATION_SHIFT_VIEWS_DURATION);
+//        bounceAnimator.setStartDelay(delay + ANIMATION_SHIFT_VIEWS_DELAY_THRESHOLD);
+//        bounceAnimator.start();
+//    }
 
     @Override
     public float getViewScaleFactor() {

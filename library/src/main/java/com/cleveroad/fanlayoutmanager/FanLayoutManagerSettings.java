@@ -20,6 +20,8 @@ public class FanLayoutManagerSettings {
 
     private float angleItemBounce;
 
+    private FanLayoutManager.Mode mode = FanLayoutManager.Mode.OVERLAPPING;
+
     private FanLayoutManagerSettings(Builder builder) {
         viewWidthDp = builder.viewWidthDp;
         viewHeightDp = builder.viewHeightDp;
@@ -27,6 +29,7 @@ public class FanLayoutManagerSettings {
         angleItemBounce = builder.angleItemBounce;
         viewWidthPx = builder.viewWidthPx;
         viewHeightPx = builder.viewHeightPx;
+        mode = builder.mode;
     }
 
     public static Builder newBuilder(Context context) {
@@ -57,6 +60,14 @@ public class FanLayoutManagerSettings {
         return viewHeightPx;
     }
 
+    public FanLayoutManager.Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(FanLayoutManager.Mode mode) {
+        this.mode = mode;
+    }
+
     /**
      * {@code FanLayoutManagerSettings} builder static inner class.
      */
@@ -68,6 +79,7 @@ public class FanLayoutManagerSettings {
         private float angleItemBounce;
         private int viewWidthPx;
         private int viewHeightPx;
+        private FanLayoutManager.Mode mode = FanLayoutManager.Mode.OVERLAPPING;
 
         private Builder(Context context) {
             this.context = context;
@@ -117,6 +129,17 @@ public class FanLayoutManagerSettings {
          */
         public Builder withAngleItemBounce(float angleItemBounce) {
             this.angleItemBounce = angleItemBounce;
+            return this;
+        }
+
+
+        /**
+         * Sets the {@code mode} and returns a reference to this Builder so that the methods can be chained together.
+         * @param mode the {@code mode} to set
+         * @return  a reference to this Builder
+         */
+        public Builder withMode(FanLayoutManager.Mode mode) {
+            this.mode = mode;
             return this;
         }
 

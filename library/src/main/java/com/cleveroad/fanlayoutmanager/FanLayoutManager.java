@@ -24,6 +24,11 @@ import java.util.Random;
 public class FanLayoutManager extends RecyclerView.LayoutManager implements
         ShiftViewListener,
         CardScrollerListener {
+
+    public enum Mode {OVERLAPPING, DISTANCE}
+
+    private Mode mode = Mode.OVERLAPPING;
+
     public static final String TAG = "FanLayoutManager";
     public static final int DEFAULT_NON_SELECTED_ITEM_POSITION = -1;
 
@@ -45,6 +50,8 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
     private boolean isWaitingToSelectAnimation = false;
     private boolean isWaitingToDeselectAnimation = false;
     private boolean isSelectedItemStraightened = false;
+
+    private boolean needToCalculateNewRotations = true;
 
     public FanLayoutManager(@NonNull Context context) {
         this(context, null);
@@ -68,10 +75,10 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
         this.animationHelper = animationHelper == null ? new AnimationHelperImpl() : animationHelper;
     }
 
-    @Override
-    public void onLayoutCompleted(RecyclerView.State state) {
-        super.onLayoutCompleted(state);
-    }
+//    @Override
+//    public void onLayoutCompleted(RecyclerView.State state) {
+//        super.onLayoutCompleted(state);
+//    }
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -306,9 +313,15 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
         // for increase performance
         final int halfViewWidth = settings.getViewWidthPx() / 2;
         final int halfScreenWidth = getWidth() / 2;
+        final int overlapDistance;
 
         // view overlapping distance
-        final int overlapDistance = settings.getViewWidthPx() / 4;
+        if(settings.getMode().equals(Mode.OVERLAPPING)) {
+           overlapDistance = settings.getViewWidthPx() / 4; // make views overlapping
+        } else {
+            overlapDistance = - settings.getViewWidthPx() / 4; // make distance between views
+        }
+
         // margin to draw cards in bottom
         final int baseTopMargin = Math.max(0, getHeight() - settings.getViewHeightPx());
 
@@ -662,4 +675,72 @@ public class FanLayoutManager extends RecyclerView.LayoutManager implements
         }
     }
 
+    public void switchMode(FanLayoutManager.Mode mode) {
+        settings.setMode(mode);
+        updateItemsByMode();
+    }
+
+    private void updateItemsByMode() {
+        selectedViewPosition = DEFAULT_NON_SELECTED_ITEM_POSITION;
+        int delta = settings.getViewWidthPx() / 2;
+        Collection<ViewAnimationInfo> infoViews;
+        int centerViewPos = findCurrentCenterViewPos();
+        if(settings.getMode().equals(Mode.OVERLAPPING)) {
+            infoViews = generateViewAnimationInfosForModeSwitching(delta, -delta, centerViewPos);
+        } else {
+            infoViews = generateViewAnimationInfosForModeSwitching(-delta, delta, centerViewPos);
+        }
+
+        animationHelper.shiftSideViews(infoViews, 0, FanLayoutManager.this);
+
+    }
+
+    private Collection<ViewAnimationInfo> generateViewAnimationInfosForModeSwitching(int leftViewDelta, int rightViewDelta, int centerPosition) {
+        final List<ViewAnimationInfo> infoViews = new ArrayList<>();
+
+        for (int count = getChildCount(), i = 0; i < count; i++) {
+            View view = getChildAt(i);
+            int viewPosition = getPosition(view);
+            if (viewPosition == centerPosition) {
+                continue;
+            }
+            ViewAnimationInfo info = new ViewAnimationInfo();
+            info.view = view;
+            info.startLeft = getDecoratedLeft(view);
+            info.startRight = getDecoratedRight(view);
+            info.top = getDecoratedTop(view);
+            info.bottom = getDecoratedBottom(view);
+            int difference;
+            if (viewPosition < centerPosition) {
+                // left view
+                difference = centerPosition - viewPosition;
+                info.finishLeft = info.startLeft + leftViewDelta * difference;
+                info.finishRight = info.startRight + leftViewDelta * difference;
+            } else {
+                // right view
+                difference = viewPosition - centerPosition;
+                info.finishLeft = info.startLeft + rightViewDelta * difference;
+                info.finishRight = info.startRight + rightViewDelta * difference;
+            }
+
+            infoViews.add(info);
+        }
+        return infoViews;
+    }
+
+    private int findCurrentCenterViewPos() {
+        float centerX = getWidth() / 2;
+        float viewHalfWidth = settings.getViewWidthPx() / 2;
+        View nearestToCenterView = null;
+        int nearestDeltaX = 0;
+        for (int count = getChildCount(), i = 0; i < count; i++) {
+            View item = getChildAt(i);
+            int centerXView = (int) (getDecoratedLeft(item) + viewHalfWidth);
+            if (nearestToCenterView == null || Math.abs(nearestDeltaX) > Math.abs(centerX - centerXView)) {
+                nearestToCenterView = item;
+                nearestDeltaX = (int) (centerX - centerXView);
+            }
+        }
+        return nearestToCenterView != null ? getPosition(nearestToCenterView) : 0;
+    }
 }

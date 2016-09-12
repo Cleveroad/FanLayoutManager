@@ -1,7 +1,6 @@
 package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 import android.animation.Animator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.cleveroad.fanlayoutmanager.FanLayoutManager;
 import com.cleveroad.fanlayoutmanager.FanLayoutManagerSettings;
@@ -30,9 +28,9 @@ public class MainFragment extends Fragment {
 
     private SportCardsAdapter adapter;
     private int selectedCardPos = -1;
+    private FanLayoutManager.Mode mode = FanLayoutManager.Mode.OVERLAPPING;
 
     FanLayoutManager fanLayoutManager;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,14 +48,19 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rvCards);
+
+
         fanLayoutManager = new FanLayoutManager(getContext(),
-                    FanLayoutManagerSettings.newBuilder(getContext())
-                            .withFanRadius(true)
-                            .withAngleItemBounce(5)
-                            .build());
+                FanLayoutManagerSettings.newBuilder(getContext())
+                        .withFanRadius(true)
+                        .withAngleItemBounce(5)
+                        .withMode(mode)
+                        .build());
+
         recyclerView.setLayoutManager(fanLayoutManager);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         adapter = new SportCardsAdapter(getContext());
         adapter.addAll(SportCardsUtils.generateSportCards());
@@ -68,38 +71,49 @@ public class MainFragment extends Fragment {
                     fanLayoutManager.switchItem(recyclerView, pos);
                     selectedCardPos = pos;
                 } else {
-                        fanLayoutManager.straightenSelectedItem(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animator) {
+                    fanLayoutManager.straightenSelectedItem(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {
 
-                            }
+                        }
 
-                            @Override
-                            public void onAnimationEnd(Animator animator) {
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+                            onClick(view, view.getTransitionName(), selectedCardPos);
+                        }
 
-                                onClick((ImageView) view, view.getTransitionName(), selectedCardPos);
-                            }
+                        @Override
+                        public void onAnimationCancel(Animator animator) {
 
-                            @Override
-                            public void onAnimationCancel(Animator animator) {
+                        }
 
-                            }
+                        @Override
+                        public void onAnimationRepeat(Animator animator) {
 
-                            @Override
-                            public void onAnimationRepeat(Animator animator) {
-
-                            }
-                        });
-
+                        }
+                    });
                 }
-
             }
         });
+
         recyclerView.setAdapter(adapter);
 
         recyclerView.setChildDrawingOrderCallback(new FanChildDrawingOrderCallback(fanLayoutManager));
 
+        // just test solution
+        (view.findViewById(R.id.logo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deselectIfSelected();
+                if(mode.equals(FanLayoutManager.Mode.DISTANCE)) {
+                    mode = FanLayoutManager.Mode.OVERLAPPING;
+                } else {
+                    mode = FanLayoutManager.Mode.DISTANCE;
+                }
+                fanLayoutManager.switchMode(mode);
 
+            }
+        });
     }
 
     @Override
@@ -120,7 +134,7 @@ public class MainFragment extends Fragment {
     }
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void onClick(ImageView imageView, String tag, int pos) {
+    public void onClick(View view, String tag, int pos) {
 //        mListener.onCardClick(imageView, tag, pos);
         FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos), tag);
 
@@ -132,7 +146,7 @@ public class MainFragment extends Fragment {
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .addSharedElement(imageView, "shared")
+                .addSharedElement(view, "shared")
                 .replace(R.id.root, fragment)
                 .addToBackStack(null)
                 .commit();
@@ -144,7 +158,7 @@ public class MainFragment extends Fragment {
         selectedCardPos = -1;
     }
 
-        public boolean deselectIfSelected() {
+    public boolean deselectIfSelected() {
         if (fanLayoutManager.isItemSelected()) {
             fanLayoutManager.deselectItem();
             selectedCardPos = -1;
@@ -156,6 +170,6 @@ public class MainFragment extends Fragment {
 
     public interface MainFragmentCallback {
 
-        void onCardClick(ImageView imageView, String tag, int pos);
+        void onCardClick(View view, String tag, int pos);
     }
 }

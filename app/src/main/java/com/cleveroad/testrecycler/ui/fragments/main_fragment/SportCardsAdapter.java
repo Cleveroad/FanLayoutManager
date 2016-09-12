@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,6 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
 
 
         holder.ivSportPreview.setTransitionName("shared" + String.valueOf(position));
-        Log.d("TAG", position + " position | Tag " + holder.ivSportPreview.getTransitionName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

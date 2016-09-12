@@ -29,17 +29,6 @@ public class FullInfoTabFragment extends Fragment {
     private SportCardModel sportCardModel;
     String transitionTag;
 
-    private AppCompatImageView ivSportPreview;
-    private TextView tvTime;
-    private TextView tvDayPart;
-
-    private AppCompatImageView ivPhoto;
-
-    private RelativeLayout rlTitleContainer;
-
-    private LinearLayout splashLayout;
-    private LinearLayout contentLayout;
-
 
     public static FullInfoTabFragment newInstance(SportCardModel sportCardModel, @Nullable String transitionTag) {
         FullInfoTabFragment fragment = new FullInfoTabFragment();
@@ -65,21 +54,19 @@ public class FullInfoTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_full_info, container, false);
-        ivPhoto = (AppCompatImageView) root.findViewById(R.id.ivPhoto);
-        return root;
+        return inflater.inflate(R.layout.fragment_full_info, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ivSportPreview = (AppCompatImageView) view.findViewById(R.id.ivSportPreview);
-        tvTime = (TextView) view.findViewById(R.id.tvTime);
-        tvDayPart = (TextView) view.findViewById(R.id.tvDayPart);
-        splashLayout = (LinearLayout) view.findViewById(R.id.splashLay);
-        rlTitleContainer = (RelativeLayout) view.findViewById(R.id.rlTitleContainer);
-        ivPhoto = (AppCompatImageView) view.findViewById(R.id.ivPhoto);
+        AppCompatImageView ivSportPreview = (AppCompatImageView) view.findViewById(R.id.ivSportPreview);
+        TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
+        TextView tvDayPart = (TextView) view.findViewById(R.id.tvDayPart);
+        LinearLayout splashLayout = (LinearLayout) view.findViewById(R.id.splashLay);
+        RelativeLayout rlTitleContainer = (RelativeLayout) view.findViewById(R.id.rlTitleContainer);
+        AppCompatImageView ivPhoto = (AppCompatImageView) view.findViewById(R.id.ivPhoto);
         ivSportPreview.setImageResource(sportCardModel.getImageResId());
         tvTime.setText(sportCardModel.getTime());
         tvDayPart.setText(sportCardModel.getDayPart());
@@ -89,7 +76,7 @@ public class FullInfoTabFragment extends Fragment {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbarFragmentInfo);
         TabLayout tabs = (TabLayout) view.findViewById(R.id.tabMainGroups);
         ViewPager pager = (ViewPager) view.findViewById(R.id.vpContent);
-        contentLayout = (LinearLayout) view.findViewById(R.id.contentLay);
+        LinearLayout contentLayout = (LinearLayout) view.findViewById(R.id.contentLay);
 
 
 

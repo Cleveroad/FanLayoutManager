@@ -7,6 +7,4 @@
     android:background="@color/white"
     tools:context="com.cleveroad.testrecycler.ui.activities.main_activity.MainActivity">
 
-
-
 </FrameLayout>
