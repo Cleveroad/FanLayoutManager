@@ -22,15 +22,14 @@ import com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFra
 
 
 public class MainFragment extends Fragment {
+    private static final String EXTRA_FAN_LAYOUT_MANAGER = "EXTRA_FAN_LAYOUT_MANAGER";
 
-    FanLayoutManager fanLayoutManager;
+
+    private FanLayoutManager fanLayoutManager;
 
     private SportCardsAdapter adapter;
-    @FanLayoutManagerSettings.DirectionMode
-    private int mode;
 
     public static MainFragment newInstance() {
-
         Bundle args = new Bundle();
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
@@ -42,20 +41,11 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        if (fanLayoutManager != null) {
-//            outState.putInt("SelectedPosition", fanLayoutManager.getSelectedItemPosition());
-//        }
-//    }
-
     @Override
     public void onPause() {
         if (fanLayoutManager != null) {
-            getArguments().putInt("SelectedPosition", fanLayoutManager.getSelectedItemPosition());
+            getArguments().putParcelable(EXTRA_FAN_LAYOUT_MANAGER, fanLayoutManager.onSaveInstanceState());
         }
-//        getArguments().putInt("SelectedPosition", fanLayoutManager.getSelectedItemPosition());
         super.onPause();
     }
 
@@ -76,7 +66,6 @@ public class MainFragment extends Fragment {
                         .withDirectionMode(FanLayoutManagerSettings.DirectionMode.TO_CENTER)
                         .withDirectionCollapse(FanLayoutManagerSettings.DirectionCollapse.FROM_CENTER)
                         .build());
-        mode = FanLayoutManagerSettings.DirectionMode.TO_CENTER;
 
         recyclerView.setLayoutManager(fanLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -126,25 +115,14 @@ public class MainFragment extends Fragment {
         (view.findViewById(R.id.logo)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mode == FanLayoutManagerSettings.DirectionMode.FROM_CENTER) {
-                    mode = FanLayoutManagerSettings.DirectionMode.TO_CENTER;
-                } else {
-                    mode = FanLayoutManagerSettings.DirectionMode.FROM_CENTER;
-                }
-                fanLayoutManager.collapseViews(mode);
+                fanLayoutManager.collapseViews();
             }
         });
-        int scrollToPosition = 0;
-        if (getArguments() != null) {
-            scrollToPosition = getArguments().getInt("SelectedPosition", 0);
-        }
-        recyclerView.scrollToPosition(scrollToPosition);
-//
+
     }
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onClick(View view, String tag, int pos) {
-//        mListener.onCardClick(imageView, tag, pos);
         FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos), tag);
 
         fragment.setSharedElementEnterTransition(new SharedTransitionSet());
@@ -163,6 +141,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (getArguments() != null && fanLayoutManager != null) {
+            fanLayoutManager.onRestoreInstanceState(getArguments().getBundle(EXTRA_FAN_LAYOUT_MANAGER));
+            getArguments().remove(EXTRA_FAN_LAYOUT_MANAGER);
+        }
     }
 
     public boolean deselectIfSelected() {
