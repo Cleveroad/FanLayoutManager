@@ -9,4 +9,6 @@ public interface CardScrollerListener {
     PointF computeScrollVectorForPosition(int targetPosition);
 
     int getWidth();
+
+    void timeForScrollingCalculated(int time);
 }

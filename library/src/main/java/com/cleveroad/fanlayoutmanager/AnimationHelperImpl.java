@@ -3,6 +3,8 @@ package com.cleveroad.fanlayoutmanager;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.Collection;
@@ -72,7 +74,7 @@ class AnimationHelperImpl implements AnimationHelper {
     }
 
     @Override
-    public void shiftSideViews(@NonNull final Collection<ViewAnimationInfo> views, int delay, @NonNull final ShiftViewListener listener) {
+    public void shiftSideViews(@NonNull final Collection<ViewAnimationInfo> views, int delay, @NonNull final RecyclerView.LayoutManager layoutManager, @Nullable Animator.AnimatorListener animatorListener) {
         ValueAnimator bounceAnimator = ValueAnimator.ofFloat(0F, 1F);
         bounceAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -81,14 +83,20 @@ class AnimationHelperImpl implements AnimationHelper {
                 for (ViewAnimationInfo info : views) {
                     int left = (int) (info.startLeft + value * (info.finishLeft - info.startLeft));
                     int right = (int) (info.startRight + value * (info.finishRight - info.startRight));
-                    listener.layoutDecorated(info.view, left, info.top, right, info.bottom);
+                    layoutManager.layoutDecorated(info.view, left, info.top, right, info.bottom);
                 }
-                listener.updateArcViewPositions();
+
+                if (layoutManager instanceof FanLayoutManager) {
+                    ((FanLayoutManager) layoutManager).updateArcViewPositions();
+                }
             }
         });
 
         bounceAnimator.setDuration(ANIMATION_SHIFT_VIEWS_DURATION);
         bounceAnimator.setStartDelay(delay + ANIMATION_SHIFT_VIEWS_DELAY_THRESHOLD);
+        if (animatorListener != null) {
+            bounceAnimator.addListener(animatorListener);
+        }
         bounceAnimator.start();
     }
 

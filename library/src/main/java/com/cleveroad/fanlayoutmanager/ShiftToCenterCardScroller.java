@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -13,17 +14,23 @@ import android.view.View;
  */
 class ShiftToCenterCardScroller extends LinearSmoothScroller {
     private static final float MILLISECONDS_PER_INCH = 400F;
-    @NonNull
-    private CardScrollerListener listener;
 
-    public ShiftToCenterCardScroller(Context context, @NonNull CardScrollerListener listener) {
+    public ShiftToCenterCardScroller(Context context) {
         super(context);
-        this.listener = listener;
     }
 
     @Override
     public PointF computeScrollVectorForPosition(int targetPosition) {
-        return listener.computeScrollVectorForPosition(targetPosition);
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null && layoutManager instanceof FanLayoutManager) {
+            if (getChildCount() == 0) {
+                return null;
+            }
+            final int firstChildPos = layoutManager.getPosition(layoutManager.getChildAt(0));
+            final int direction = targetPosition < firstChildPos ? -1 : 1;
+            return new PointF(direction, 0);
+        }
+        return new PointF();
     }
 
     @Override
@@ -33,7 +40,12 @@ class ShiftToCenterCardScroller extends LinearSmoothScroller {
 
     @Override
     public int calculateDxToMakeVisible(View view, int snapPreference) {
-        return super.calculateDxToMakeVisible(view, snapPreference) + listener.getWidth() / 2 - view.getWidth() / 2;
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            return super.calculateDxToMakeVisible(view, snapPreference) + layoutManager.getWidth() / 2 - view.getWidth() / 2;
+        } else {
+            return super.calculateDxToMakeVisible(view, snapPreference);
+        }
     }
 
     @Override
@@ -46,4 +58,9 @@ class ShiftToCenterCardScroller extends LinearSmoothScroller {
         return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
     }
 
+    @Override
+    protected int calculateTimeForScrolling(int dx) {
+        int time = super.calculateTimeForScrolling(dx);
+        return time;
+    }
 }

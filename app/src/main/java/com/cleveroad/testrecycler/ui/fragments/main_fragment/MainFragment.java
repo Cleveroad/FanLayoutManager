@@ -1,7 +1,6 @@
 package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 import android.animation.Animator;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,18 +23,40 @@ import com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFra
 
 public class MainFragment extends Fragment {
 
-    private MainFragmentCallback mListener;
+    FanLayoutManager fanLayoutManager;
 
     private SportCardsAdapter adapter;
-    private int selectedCardPos = -1;
-    private FanLayoutManager.Mode mode = FanLayoutManager.Mode.OVERLAPPING;
+    @FanLayoutManagerSettings.DirectionMode
+    private int mode;
 
-    FanLayoutManager fanLayoutManager;
+    public static MainFragment newInstance() {
+
+        Bundle args = new Bundle();
+        MainFragment fragment = new MainFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if (fanLayoutManager != null) {
+//            outState.putInt("SelectedPosition", fanLayoutManager.getSelectedItemPosition());
+//        }
+//    }
+
+    @Override
+    public void onPause() {
+        if (fanLayoutManager != null) {
+            getArguments().putInt("SelectedPosition", fanLayoutManager.getSelectedItemPosition());
+        }
+//        getArguments().putInt("SelectedPosition", fanLayoutManager.getSelectedItemPosition());
+        super.onPause();
     }
 
     @Override
@@ -48,28 +69,30 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rvCards);
-
-
         fanLayoutManager = new FanLayoutManager(getContext(),
                 FanLayoutManagerSettings.newBuilder(getContext())
                         .withFanRadius(true)
                         .withAngleItemBounce(5)
-                        .withMode(mode)
+                        .withDirectionMode(FanLayoutManagerSettings.DirectionMode.TO_CENTER)
+                        .withDirectionCollapse(FanLayoutManagerSettings.DirectionCollapse.FROM_CENTER)
                         .build());
+        mode = FanLayoutManagerSettings.DirectionMode.TO_CENTER;
 
         recyclerView.setLayoutManager(fanLayoutManager);
-
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
 
         adapter = new SportCardsAdapter(getContext());
         adapter.addAll(SportCardsUtils.generateSportCards());
+        adapter.addAll(SportCardsUtils.generateSportCards());
+        adapter.addAll(SportCardsUtils.generateSportCards());
+        adapter.addAll(SportCardsUtils.generateSportCards());
+        adapter.addAll(SportCardsUtils.generateSportCards());
+
         adapter.setItemClickListener(new SportCardsAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int pos, final View view) {
-                if(selectedCardPos != pos) {
+                if (fanLayoutManager.getSelectedItemPosition() != pos) {
                     fanLayoutManager.switchItem(recyclerView, pos);
-                    selectedCardPos = pos;
                 } else {
                     fanLayoutManager.straightenSelectedItem(new Animator.AnimatorListener() {
                         @Override
@@ -79,7 +102,7 @@ public class MainFragment extends Fragment {
 
                         @Override
                         public void onAnimationEnd(Animator animator) {
-                            onClick(view, view.getTransitionName(), selectedCardPos);
+                            onClick(view, view.getTransitionName(), fanLayoutManager.getSelectedItemPosition());
                         }
 
                         @Override
@@ -100,37 +123,23 @@ public class MainFragment extends Fragment {
 
         recyclerView.setChildDrawingOrderCallback(new FanChildDrawingOrderCallback(fanLayoutManager));
 
-        // just test solution
         (view.findViewById(R.id.logo)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deselectIfSelected();
-                if(mode.equals(FanLayoutManager.Mode.DISTANCE)) {
-                    mode = FanLayoutManager.Mode.OVERLAPPING;
+                if (mode == FanLayoutManagerSettings.DirectionMode.FROM_CENTER) {
+                    mode = FanLayoutManagerSettings.DirectionMode.TO_CENTER;
                 } else {
-                    mode = FanLayoutManager.Mode.DISTANCE;
+                    mode = FanLayoutManagerSettings.DirectionMode.FROM_CENTER;
                 }
-                fanLayoutManager.switchMode(mode);
-
+                fanLayoutManager.collapseViews(mode);
             }
         });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainFragmentCallback) {
-            mListener = (MainFragmentCallback) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement MainFragmentCallback");
+        int scrollToPosition = 0;
+        if (getArguments() != null) {
+            scrollToPosition = getArguments().getInt("SelectedPosition", 0);
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        recyclerView.scrollToPosition(scrollToPosition);
+//
     }
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -143,7 +152,6 @@ public class MainFragment extends Fragment {
         setExitTransition(new Fade());
         fragment.setSharedElementReturnTransition(new SharedTransitionSet());
 
-
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addSharedElement(view, "shared")
@@ -155,21 +163,15 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        selectedCardPos = -1;
     }
 
     public boolean deselectIfSelected() {
         if (fanLayoutManager.isItemSelected()) {
             fanLayoutManager.deselectItem();
-            selectedCardPos = -1;
             return true;
         } else {
             return false;
         }
     }
 
-    public interface MainFragmentCallback {
-
-        void onCardClick(View view, String tag, int pos);
-    }
 }

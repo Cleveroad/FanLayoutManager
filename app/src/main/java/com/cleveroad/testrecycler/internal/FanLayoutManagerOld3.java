@@ -106,7 +106,7 @@
 //        if (startInset == 0 && endInset == 0) {
 //            return spec;
 //        }
-//        final int mode = View.MeasureSpec.getMode(spec);
+//        final int mode = View.MeasureSpec.getDirectionMode(spec);
 //        if (mode == View.MeasureSpec.AT_MOST || mode == View.MeasureSpec.EXACTLY) {
 //            return View.MeasureSpec.makeMeasureSpec(
 //                    View.MeasureSpec.getSize(spec) - startInset - endInset, mode);

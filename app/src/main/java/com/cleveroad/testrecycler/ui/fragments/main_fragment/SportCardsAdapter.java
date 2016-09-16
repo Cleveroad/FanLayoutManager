@@ -105,9 +105,9 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
         final TextView tvSportTitle;
         final TextView tvSportSubtitle;
         final TextView tvSportRound;
-        ImageView ivSportPreview;
         final TextView tvTime;
         final TextView tvDayPart;
+        ImageView ivSportPreview;
 
         SportCardViewHolder(View itemView) {
             super(itemView);
