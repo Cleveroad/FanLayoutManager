@@ -17,7 +17,6 @@ import com.cleveroad.fanlayoutmanager.FanLayoutManagerSettings;
 import com.cleveroad.fanlayoutmanager.callbacks.FanChildDrawingOrderCallback;
 import com.cleveroad.testrecycler.R;
 import com.cleveroad.testrecycler.SportCardsUtils;
-import com.cleveroad.testrecycler.ui.activities.main_activity.SharedTransitionSet;
 import com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment;
 
 

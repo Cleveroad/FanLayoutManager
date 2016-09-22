@@ -10,6 +10,7 @@ import com.cleveroad.testrecycler.ui.fragments.full_info_inner_fragment.FullInfo
 
 class CardsInfoAdapter extends FragmentStatePagerAdapter {
 
+    private static final int TABS_COUNT = 3;
     private SportCardModel sportCardModel;
     private String[] titles = {"MEN", "WOMEN", "ATHLETES"};
 
@@ -25,7 +26,7 @@ class CardsInfoAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return TABS_COUNT;
     }
 
     @Override

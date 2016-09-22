@@ -1,4 +1,4 @@
-package com.cleveroad.testrecycler.ui.activities.main_activity;
+package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class SharedTransitionSet extends TransitionSet {
+class SharedTransitionSet extends TransitionSet {
 
     public SharedTransitionSet(Context context, AttributeSet attrs) {
         super(context, attrs);
