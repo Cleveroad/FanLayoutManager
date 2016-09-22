@@ -1,10 +1,10 @@
 package com.cleveroad.fanlayoutmanager;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * @author alex yarovoi
+ * @version 1.0
  */
 public class FanLayoutManagerSettings {
 
@@ -18,11 +18,6 @@ public class FanLayoutManagerSettings {
     private boolean isFanRadiusEnable;
     private float angleItemBounce;
 
-    @DirectionMode
-    private int directionMode = DirectionMode.FROM_CENTER;
-    @DirectionCollapse
-    private int directionCollapse = DirectionCollapse.FROM_CENTER;
-
     private FanLayoutManagerSettings(Builder builder) {
         viewWidthDp = builder.viewWidthDp;
         viewHeightDp = builder.viewHeightDp;
@@ -30,66 +25,36 @@ public class FanLayoutManagerSettings {
         angleItemBounce = builder.angleItemBounce;
         viewWidthPx = builder.viewWidthPx;
         viewHeightPx = builder.viewHeightPx;
-        directionMode = builder.directionMode;
     }
 
     public static Builder newBuilder(Context context) {
         return new Builder(context);
     }
 
-    @DirectionCollapse
-    public int getDirectionCollapse() {
-        return directionCollapse;
-    }
-
-    public void setDirectionCollapse(@DirectionCollapse int directionCollapse) {
-        this.directionCollapse = directionCollapse;
-    }
-
-    public float getViewWidthDp() {
+    float getViewWidthDp() {
         return viewWidthDp;
     }
 
-    public float getViewHeightDp() {
+    float getViewHeightDp() {
         return viewHeightDp;
     }
 
-    public boolean isFanRadiusEnable() {
+    boolean isFanRadiusEnable() {
         return isFanRadiusEnable;
     }
 
-    public float getAngleItemBounce() {
+    float getAngleItemBounce() {
         return angleItemBounce;
     }
 
-    public int getViewWidthPx() {
+    int getViewWidthPx() {
         return viewWidthPx;
     }
 
-    public int getViewHeightPx() {
+    int getViewHeightPx() {
         return viewHeightPx;
     }
 
-    @FanLayoutManagerSettings.DirectionMode
-    public int getDirectionMode() {
-        return directionMode;
-    }
-
-    public void setDirectionMode(@DirectionMode int directionMode) {
-        this.directionMode = directionMode;
-    }
-
-    @IntDef(value = {DirectionMode.FROM_CENTER, DirectionMode.TO_CENTER})
-    public @interface DirectionMode {
-        int FROM_CENTER = 0;
-        int TO_CENTER = 1;
-    }
-
-    @IntDef(value = {DirectionCollapse.FROM_CENTER, DirectionCollapse.FROM_EACH_OTHER})
-    public @interface DirectionCollapse {
-        int FROM_CENTER = 0;
-        int FROM_EACH_OTHER = 1;
-    }
 
     /**
      * {@code FanLayoutManagerSettings} builder static inner class.
@@ -102,12 +67,6 @@ public class FanLayoutManagerSettings {
         private float angleItemBounce;
         private int viewWidthPx;
         private int viewHeightPx;
-        private
-        @DirectionMode
-        int directionMode = DirectionMode.FROM_CENTER;
-
-        @DirectionCollapse
-        private int directionCollapse = DirectionCollapse.FROM_CENTER;
 
         private Builder(Context context) {
             this.context = context;
@@ -159,30 +118,6 @@ public class FanLayoutManagerSettings {
             this.angleItemBounce = angleItemBounce;
             return this;
         }
-
-
-        /**
-         * Sets the {@code directionMode} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param directionMode the {@code directionMode} to set
-         * @return a reference to this Builder
-         */
-        public Builder withDirectionMode(@DirectionMode int directionMode) {
-            this.directionMode = directionMode;
-            return this;
-        }
-
-        /**
-         * Sets the {@code directionCollapse} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param directionCollapse the {@code directionMode} to set
-         * @return a reference to this Builder
-         */
-        public Builder withDirectionCollapse(@DirectionCollapse int directionCollapse) {
-            this.directionCollapse = directionCollapse;
-            return this;
-        }
-
 
         /**
          * Returns a {@code FanLayoutManagerSettings} built from the parameters previously set.

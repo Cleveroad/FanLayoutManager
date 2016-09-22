@@ -22,8 +22,6 @@ import com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFra
 
 
 public class MainFragment extends Fragment {
-    private static final String EXTRA_FAN_LAYOUT_MANAGER = "EXTRA_FAN_LAYOUT_MANAGER";
-
 
     private FanLayoutManager fanLayoutManager;
 
@@ -42,14 +40,6 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        if (fanLayoutManager != null) {
-            getArguments().putParcelable(EXTRA_FAN_LAYOUT_MANAGER, fanLayoutManager.onSaveInstanceState());
-        }
-        super.onPause();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
@@ -63,8 +53,6 @@ public class MainFragment extends Fragment {
                 FanLayoutManagerSettings.newBuilder(getContext())
                         .withFanRadius(true)
                         .withAngleItemBounce(5)
-                        .withDirectionMode(FanLayoutManagerSettings.DirectionMode.TO_CENTER)
-                        .withDirectionCollapse(FanLayoutManagerSettings.DirectionCollapse.FROM_CENTER)
                         .build());
 
         recyclerView.setLayoutManager(fanLayoutManager);
@@ -136,15 +124,6 @@ public class MainFragment extends Fragment {
                 .replace(R.id.root, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getArguments() != null && fanLayoutManager != null) {
-            fanLayoutManager.onRestoreInstanceState(getArguments().getBundle(EXTRA_FAN_LAYOUT_MANAGER));
-            getArguments().remove(EXTRA_FAN_LAYOUT_MANAGER);
-        }
     }
 
     public boolean deselectIfSelected() {

@@ -1,36 +1,22 @@
 package com.cleveroad.fanlayoutmanager;
 
 import android.content.Context;
-import android.graphics.PointF;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * LinearSmoothScroller to show view in the middle of the screen.
+ *
+ * @author alex yarovoi
+ * @version 1.0
  */
-class ShiftToCenterCardScroller extends LinearSmoothScroller {
+class ShiftToCenterCardScroller extends BaseSmoothScroller {
+    //TODO Need to change this to make it more flexible.
     private static final float MILLISECONDS_PER_INCH = 400F;
 
-    public ShiftToCenterCardScroller(Context context) {
+    ShiftToCenterCardScroller(Context context) {
         super(context);
-    }
-
-    @Override
-    public PointF computeScrollVectorForPosition(int targetPosition) {
-        RecyclerView.LayoutManager layoutManager = getLayoutManager();
-        if (layoutManager != null && layoutManager instanceof FanLayoutManager) {
-            if (getChildCount() == 0) {
-                return null;
-            }
-            final int firstChildPos = layoutManager.getPosition(layoutManager.getChildAt(0));
-            final int direction = targetPosition < firstChildPos ? -1 : 1;
-            return new PointF(direction, 0);
-        }
-        return new PointF();
     }
 
     @Override
@@ -42,8 +28,10 @@ class ShiftToCenterCardScroller extends LinearSmoothScroller {
     public int calculateDxToMakeVisible(View view, int snapPreference) {
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null) {
+            // add to calculated dx offset. Need to scroll to center of RecyclerView.
             return super.calculateDxToMakeVisible(view, snapPreference) + layoutManager.getWidth() / 2 - view.getWidth() / 2;
         } else {
+            // no layoutManager detected - not expected case.
             return super.calculateDxToMakeVisible(view, snapPreference);
         }
     }
@@ -58,9 +46,4 @@ class ShiftToCenterCardScroller extends LinearSmoothScroller {
         return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
     }
 
-    @Override
-    protected int calculateTimeForScrolling(int dx) {
-        int time = super.calculateTimeForScrolling(dx);
-        return time;
-    }
 }

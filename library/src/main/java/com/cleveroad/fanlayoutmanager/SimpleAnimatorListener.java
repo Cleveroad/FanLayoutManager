@@ -3,7 +3,10 @@ package com.cleveroad.fanlayoutmanager;
 import android.animation.Animator;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * Simple implementation of {@link Animator.AnimatorListener} interface
+ *
+ * @author alex yarovoi
+ * @version 1.0
  */
 class SimpleAnimatorListener implements Animator.AnimatorListener {
     @Override
