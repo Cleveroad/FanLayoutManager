@@ -1,29 +1,22 @@
 package com.cleveroad.fanlayoutmanager;
 
 import android.content.Context;
-import android.graphics.PointF;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * LinearSmoothScroller to show view in the middle of the screen.
+ *
+ * @author alex yarovoi
+ * @version 1.0
  */
-class ShiftToCenterCardScroller extends LinearSmoothScroller {
+class ShiftToCenterCardScroller extends BaseSmoothScroller {
+    //TODO Need to change this to make it more flexible.
     private static final float MILLISECONDS_PER_INCH = 400F;
-    @NonNull
-    private CardScrollerListener listener;
 
-    public ShiftToCenterCardScroller(Context context, @NonNull CardScrollerListener listener) {
+    ShiftToCenterCardScroller(Context context) {
         super(context);
-        this.listener = listener;
-    }
-
-    @Override
-    public PointF computeScrollVectorForPosition(int targetPosition) {
-        return listener.computeScrollVectorForPosition(targetPosition);
     }
 
     @Override
@@ -33,7 +26,14 @@ class ShiftToCenterCardScroller extends LinearSmoothScroller {
 
     @Override
     public int calculateDxToMakeVisible(View view, int snapPreference) {
-        return super.calculateDxToMakeVisible(view, snapPreference) + listener.getWidth() / 2 - view.getWidth() / 2;
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            // add to calculated dx offset. Need to scroll to center of RecyclerView.
+            return super.calculateDxToMakeVisible(view, snapPreference) + layoutManager.getWidth() / 2 - view.getWidth() / 2;
+        } else {
+            // no layoutManager detected - not expected case.
+            return super.calculateDxToMakeVisible(view, snapPreference);
+        }
     }
 
     @Override

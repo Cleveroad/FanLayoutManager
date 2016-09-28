@@ -1,33 +1,33 @@
 package com.cleveroad.testrecycler.ui.activities.main_activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.os.PersistableBundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.cleveroad.testrecycler.R;
-import com.cleveroad.testrecycler.models.SportCardModel;
-import com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFragment;
 import com.cleveroad.testrecycler.ui.fragments.main_fragment.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.MainFragmentCallback {
+public class MainActivity extends AppCompatActivity {
 
-    private final static String MAIN_FRAGMENT_TAG = "MainFragmentTag";
-    private final static String INFO_FRAGMENT_TAG = "InfoFragmentTag";
-
-    private FragmentManager fragmentManager;
-
-    private MainFragment mainFragment;
-
+    MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        fragmentManager = getSupportFragmentManager();
-
-        mainFragment = (MainFragment) fragmentManager.findFragmentById(R.id.mainFragment);
-
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.root, mainFragment = MainFragment.newInstance())
+                    .commit();
+        } else {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.root);
+            if (fragment instanceof MainFragment) {
+                mainFragment = (MainFragment) fragment;
+            }
+        }
     }
 
     @Override
@@ -38,16 +38,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     }
 
     @Override
-    public void onCardClicked(SportCardModel sportCardModel) {
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.show_info_animation, R.anim.hide_main_transaction,
-                        R.anim.show_info_animation, R.anim.hide_main_transaction)
-                .replace(R.id.root, FullInfoTabFragment.newInstance(sportCardModel))
-                .addToBackStack(INFO_FRAGMENT_TAG)
-                .commit();
-
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
-
-
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
 }

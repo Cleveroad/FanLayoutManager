@@ -16,16 +16,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
+        android:layout_toLeftOf="@+id/vCenter"
+        android:layout_toStartOf="@+id/vCenter"
         android:adjustViewBounds="true"
         android:transitionName="shared"
         tools:layout_height="100dp" />
+
+    <View
+        android:id="@+id/vCenter"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <RelativeLayout
         android:id="@+id/scopeHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_below="@+id/ivPhoto">
+        android:layout_below="@id/toolbar"
+        android:layout_toEndOf="@+id/vCenter"
+        android:layout_toRightOf="@+id/vCenter">
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,6 +60,8 @@
         android:id="@+id/rvAthletics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/scopeHeader" />
+        android:layout_below="@+id/scopeHeader"
+        android:layout_toEndOf="@+id/vCenter"
+        android:layout_toRightOf="@+id/vCenter" />
 
 </RelativeLayout>

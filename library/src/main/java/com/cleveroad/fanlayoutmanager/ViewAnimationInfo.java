@@ -3,7 +3,10 @@ package com.cleveroad.fanlayoutmanager;
 import android.view.View;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * Holder for data
+ *
+ * @author alex yarovoi
+ * @version 1.0
  */
 class ViewAnimationInfo {
     int startLeft;

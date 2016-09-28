@@ -3,7 +3,8 @@ package com.cleveroad.fanlayoutmanager;
 import android.content.Context;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * @author alex yarovoi
+ * @version 1.0
  */
 public class FanLayoutManagerSettings {
 
@@ -12,12 +13,9 @@ public class FanLayoutManagerSettings {
 
     private float viewWidthDp;
     private float viewHeightDp;
-
     private int viewWidthPx;
     private int viewHeightPx;
-
     private boolean isFanRadiusEnable;
-
     private float angleItemBounce;
 
     private FanLayoutManagerSettings(Builder builder) {
@@ -33,29 +31,30 @@ public class FanLayoutManagerSettings {
         return new Builder(context);
     }
 
-    public float getViewWidthDp() {
+    float getViewWidthDp() {
         return viewWidthDp;
     }
 
-    public float getViewHeightDp() {
+    float getViewHeightDp() {
         return viewHeightDp;
     }
 
-    public boolean isFanRadiusEnable() {
+    boolean isFanRadiusEnable() {
         return isFanRadiusEnable;
     }
 
-    public float getAngleItemBounce() {
+    float getAngleItemBounce() {
         return angleItemBounce;
     }
 
-    public int getViewWidthPx() {
+    int getViewWidthPx() {
         return viewWidthPx;
     }
 
-    public int getViewHeightPx() {
+    int getViewHeightPx() {
         return viewHeightPx;
     }
+
 
     /**
      * {@code FanLayoutManagerSettings} builder static inner class.

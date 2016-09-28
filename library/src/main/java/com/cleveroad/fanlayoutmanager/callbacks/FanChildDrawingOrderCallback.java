@@ -6,14 +6,15 @@ import android.view.View;
 import java.lang.ref.WeakReference;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * @author alex yarovoi
+ * @version 1.0
  */
 public class FanChildDrawingOrderCallback implements RecyclerView.ChildDrawingOrderCallback {
 
     private WeakReference<RecyclerView.LayoutManager> layoutManagerWeakReference;
 
     public FanChildDrawingOrderCallback(RecyclerView.LayoutManager layoutManager) {
-        layoutManagerWeakReference = new WeakReference<RecyclerView.LayoutManager>(layoutManager);
+        layoutManagerWeakReference = new WeakReference<>(layoutManager);
     }
 
     @Override

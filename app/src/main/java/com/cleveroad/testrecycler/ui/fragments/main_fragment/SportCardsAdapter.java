@@ -2,12 +2,12 @@ package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cleveroad.testrecycler.R;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCardViewHolder> {
+class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCardViewHolder> {
     private final List<SportCardModel> items = new ArrayList<>();
     private Context context;
     private OnItemClickListener itemClickListener;
 
-    public SportCardsAdapter(Context context) {
+    SportCardsAdapter(Context context) {
         this.context = context;
     }
 
@@ -34,7 +34,7 @@ public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.Sp
         return isAdded;
     }
 
-    public boolean addAll(Collection<SportCardModel> items) {
+    boolean addAll(Collection<SportCardModel> items) {
         int start = this.items.size();
         boolean isAdded = this.items.addAll(items);
         if (isAdded) {
@@ -55,7 +55,7 @@ public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.Sp
     }
 
     @Override
-    public void onBindViewHolder(SportCardViewHolder holder, final int position) {
+    public void onBindViewHolder(final SportCardViewHolder holder, int position) {
         SportCardModel item = items.get(position);
         holder.tvSportTitle.setText(item.getSportTitle());
         holder.tvSportSubtitle.setText(item.getSportSubtitle());
@@ -66,11 +66,13 @@ public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.Sp
 
         ((CardView) holder.itemView).setCardBackgroundColor(ContextCompat.getColor(context, item.getBackgroundColorResId()));
 
+
+        holder.ivSportPreview.setTransitionName("shared" + String.valueOf(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (itemClickListener != null) {
-                    itemClickListener.onItemClicked(position);
+                    itemClickListener.onItemClicked(holder.getAdapterPosition(), holder.ivSportPreview);
                 }
             }
         });
@@ -85,16 +87,17 @@ public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.Sp
         return itemClickListener;
     }
 
-    public void setItemClickListener(OnItemClickListener itemClickListener) {
+    void setItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
-    public SportCardModel getModelByPos(int pos) {
+    SportCardModel getModelByPos(int pos) {
         return items.get(pos);
+
     }
 
-    public interface OnItemClickListener {
-        void onItemClicked(int pos);
+    interface OnItemClickListener {
+        void onItemClicked(int pos, View view);
     }
 
     class SportCardViewHolder extends RecyclerView.ViewHolder {
@@ -102,16 +105,16 @@ public class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.Sp
         final TextView tvSportTitle;
         final TextView tvSportSubtitle;
         final TextView tvSportRound;
-        final AppCompatImageView ivSportPreview;
         final TextView tvTime;
         final TextView tvDayPart;
+        ImageView ivSportPreview;
 
         SportCardViewHolder(View itemView) {
             super(itemView);
             tvSportTitle = (TextView) itemView.findViewById(R.id.tvSportTitle);
             tvSportSubtitle = (TextView) itemView.findViewById(R.id.tvSportSubtitle);
             tvSportRound = (TextView) itemView.findViewById(R.id.tvSportRound);
-            ivSportPreview = (AppCompatImageView) itemView.findViewById(R.id.ivSportPreview);
+            ivSportPreview = (ImageView) itemView.findViewById(R.id.ivSportPreview);
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
             tvDayPart = (TextView) itemView.findViewById(R.id.tvDayPart);
         }

@@ -1,34 +1,31 @@
 package com.cleveroad.fanlayoutmanager;
 
 import android.content.Context;
-import android.graphics.PointF;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 
 /**
- * Created by Alex Yarovoi 16.08.2016
+ * LinearSmoothScroller for switch views.
+ *
+ * @author alex yarovoi
+ * @version 1.0
  */
-class FanCardScroller extends LinearSmoothScroller {
-
+class FanCardScroller extends BaseSmoothScroller {
+    //TODO Need to change this to make it more flexible.
     private static final float MILLISECONDS_PER_INCH = 200F;
-    @NonNull
-    private CardScrollerListener listener;
 
     @Nullable
     private FanCardTimeCallback cardTimeCallback;
 
-    FanCardScroller(Context context, @NonNull CardScrollerListener listener) {
+    /**
+     * LinearSmoothScroller for switch views.
+     *
+     * @param context Context
+     */
+    FanCardScroller(Context context) {
         super(context);
-        this.listener = listener;
-    }
-
-    @Override
-    public PointF computeScrollVectorForPosition(int targetPosition) {
-        return listener.computeScrollVectorForPosition(targetPosition);
     }
 
     @Override
@@ -38,12 +35,14 @@ class FanCardScroller extends LinearSmoothScroller {
 
     @Override
     public int calculateDxToMakeVisible(View view, int snapPreference) {
-        return super.calculateDxToMakeVisible(view, snapPreference) + listener.getWidth() / 2 - view.getWidth() / 2;
-    }
-
-    @Override
-    protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
-        super.onTargetFound(targetView, state, action);
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            // add to calculated dx offset. Need to scroll to center of RecyclerView.
+            return super.calculateDxToMakeVisible(view, snapPreference) + layoutManager.getWidth() / 2 - view.getWidth() / 2;
+        } else {
+            // no layoutManager detected - not expected case. can be magic or end of the world...
+            return super.calculateDxToMakeVisible(view, snapPreference);
+        }
     }
 
     @Override
@@ -66,11 +65,15 @@ class FanCardScroller extends LinearSmoothScroller {
         return cardTimeCallback;
     }
 
-    public void setCardTimeCallback(@Nullable FanCardTimeCallback cardTimeCallback) {
+    void setCardTimeCallback(@Nullable FanCardTimeCallback cardTimeCallback) {
         this.cardTimeCallback = cardTimeCallback;
     }
 
     interface FanCardTimeCallback {
+        /**
+         * @param targetPosition item position to scroll to
+         * @param time           scroll duration
+         */
         void onTimeForScrollingCalculated(int targetPosition, int time);
     }
 }
