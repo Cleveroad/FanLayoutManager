@@ -14,7 +14,7 @@ public class SportCardsUtils {
         {
             sportCardModels.add(SportCardModel
                     .newBuilder()
-                    .withSportTitle("Table tennis0")
+                    .withSportTitle("Table tennis")
                     .withSportSubtitle("Woman's singles")
                     .withSportRound("Preliminaries")
                     .withImageResId(R.drawable.pic_card_1)
@@ -28,7 +28,7 @@ public class SportCardsUtils {
         {
             sportCardModels.add(SportCardModel
                     .newBuilder()
-                    .withSportTitle("Shooting1")
+                    .withSportTitle("Shooting")
                     .withSportSubtitle("Woman's 10m air rifle")
                     .withSportRound("Qualification")
                     .withImageResId(R.drawable.pic_card_2)
@@ -42,7 +42,7 @@ public class SportCardsUtils {
         {
             sportCardModels.add(SportCardModel
                     .newBuilder()
-                    .withSportTitle("Rowing2")
+                    .withSportTitle("Rowing")
                     .withSportSubtitle("Men's single sculls")
                     .withSportRound("Heats")
                     .withImageResId(R.drawable.pic_card_3)
@@ -56,7 +56,7 @@ public class SportCardsUtils {
         {
             sportCardModels.add(SportCardModel
                     .newBuilder()
-                    .withSportTitle("Archery3")
+                    .withSportTitle("Archery")
                     .withSportSubtitle("Men's team")
                     .withSportRound("Round of 16")
                     .withImageResId(R.drawable.pic_card_5)
@@ -70,7 +70,7 @@ public class SportCardsUtils {
         {
             sportCardModels.add(SportCardModel
                     .newBuilder()
-                    .withSportTitle("Water polo4")
+                    .withSportTitle("Water polo")
                     .withSportSubtitle("Men’s tournament")
                     .withSportRound("Group A")
                     .withImageResId(R.drawable.pic_card_4)
