@@ -81,7 +81,7 @@ public class FanLayoutManagerSettings {
         public Builder withViewWidthDp(float viewWidthDp) {
             this.viewWidthDp = viewWidthDp;
             this.viewWidthPx = Math.round(context.getResources().getDisplayMetrics().density * viewWidthDp);
-
+            this.viewWidthPx = Math.min(context.getResources().getDisplayMetrics().widthPixels, this.viewWidthPx);
             return this;
         }
 
@@ -94,6 +94,7 @@ public class FanLayoutManagerSettings {
         public Builder withViewHeightDp(float viewHeightDp) {
             this.viewHeightDp = viewHeightDp;
             this.viewHeightPx = Math.round(context.getResources().getDisplayMetrics().density * viewHeightDp);
+            this.viewHeightPx = Math.min(context.getResources().getDisplayMetrics().heightPixels, this.viewHeightPx);
             return this;
         }
 

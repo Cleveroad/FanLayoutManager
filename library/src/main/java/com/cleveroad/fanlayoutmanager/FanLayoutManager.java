@@ -425,14 +425,16 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         for (int count = getChildCount(), i = 0; i < count; i++) {
             View view = getChildAt(i);
             rotation = 0;
+            // need to show views in "fan" style
+
+            halfViewWidth = view.getWidth() / 2;
+
+            // change pivot point to center bottom of the view
+            view.setPivotX(halfViewWidth);
+            view.setPivotY(view.getHeight());
+
             if (settings.isFanRadiusEnable()) {
-                // need to show views in "fan" style
 
-                halfViewWidth = view.getWidth() / 2;
-
-                // change pivot point to center bottom of the view
-                view.setPivotX(halfViewWidth);
-                view.setPivotY(view.getHeight());
                 // distance between center of screen to center of view in x-axis
                 deltaX = halfWidth - getDecoratedLeft(view) - halfViewWidth;
 
