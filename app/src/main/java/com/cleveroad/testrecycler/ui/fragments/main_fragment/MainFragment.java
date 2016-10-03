@@ -59,10 +59,6 @@ public class MainFragment extends Fragment {
 
         adapter = new SportCardsAdapter(getContext());
         adapter.addAll(SportCardsUtils.generateSportCards());
-        adapter.addAll(SportCardsUtils.generateSportCards());
-        adapter.addAll(SportCardsUtils.generateSportCards());
-        adapter.addAll(SportCardsUtils.generateSportCards());
-        adapter.addAll(SportCardsUtils.generateSportCards());
 
         adapter.setItemClickListener(new SportCardsAdapter.OnItemClickListener() {
             @Override
@@ -78,7 +74,11 @@ public class MainFragment extends Fragment {
 
                         @Override
                         public void onAnimationEnd(Animator animator) {
-                            onClick(view, view.getTransitionName(), fanLayoutManager.getSelectedItemPosition());
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                onClick(view, fanLayoutManager.getSelectedItemPosition());
+                            } else {
+                                onClick(fanLayoutManager.getSelectedItemPosition());
+                            }
                         }
 
                         @Override
@@ -109,8 +109,8 @@ public class MainFragment extends Fragment {
     }
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void onClick(View view, String tag, int pos) {
-        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos), tag);
+    public void onClick(View view, int pos) {
+        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos));
 
         fragment.setSharedElementEnterTransition(new SharedTransitionSet());
         fragment.setEnterTransition(new Fade());
@@ -120,6 +120,15 @@ public class MainFragment extends Fragment {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addSharedElement(view, "shared")
+                .replace(R.id.root, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void onClick(int pos) {
+        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos));
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
                 .replace(R.id.root, fragment)
                 .addToBackStack(null)
                 .commit();

@@ -29,18 +29,16 @@ import java.util.List;
 public class FullInfoTabFragment extends Fragment {
 
     private static final String EXTRA_SRORT_CARD_MODEL = "EXTRA_SRORT_CARD_MODEL";
-    private static final String EXTRA_POSITION_NAME = "EXTRA_POSITION_NAME";
     //    String transitionTag;
     private SportCardModel sportCardModel;
     private Toolbar toolbar;
     private ImageView ivPhoto;
     private RecyclerView rvAthletics;
 
-    public static FullInfoTabFragment newInstance(SportCardModel sportCardModel, @Nullable String transitionTag) {
+    public static FullInfoTabFragment newInstance(SportCardModel sportCardModel) {
         FullInfoTabFragment fragment = new FullInfoTabFragment();
         Bundle args = new Bundle();
         args.putParcelable(EXTRA_SRORT_CARD_MODEL, sportCardModel);
-        args.putString(EXTRA_POSITION_NAME, transitionTag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +48,6 @@ public class FullInfoTabFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             sportCardModel = getArguments().getParcelable(EXTRA_SRORT_CARD_MODEL);
-//            transitionTag = getArguments().getString(EXTRA_POSITION_NAME);
         }
         if (savedInstanceState != null) {
             sportCardModel = savedInstanceState.getParcelable(EXTRA_SRORT_CARD_MODEL);

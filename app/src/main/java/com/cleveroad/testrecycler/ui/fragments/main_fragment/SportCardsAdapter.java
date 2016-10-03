@@ -1,6 +1,7 @@
 package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +68,10 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
         ((CardView) holder.itemView).setCardBackgroundColor(ContextCompat.getColor(context, item.getBackgroundColorResId()));
 
 
-        holder.ivSportPreview.setTransitionName("shared" + String.valueOf(position));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.ivSportPreview.setTransitionName("shared" + String.valueOf(position));
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
