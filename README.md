@@ -45,4 +45,8 @@ You can *remove bounce angle* effect for selected item:
 public void straightenSelectedItem(Animator.AnimatorListener listener);
 ```
 
+You can collapse views using:
+```JAVA
+public void collapseViews();
+```
 
