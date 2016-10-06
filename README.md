@@ -4,6 +4,12 @@
 
 ![Demo image](/images/demo.gif)
 
+### Installation ###
+by Gradle:
+```groovy
+    compile 'com.cleveroad:fan-layout-manager:1.0.1'
+```
+### Setup and usage ###
 Use default FanLayoutManager in code:
 ```JAVA
 fanLayoutManager = new FanLayoutManager(getContext());
