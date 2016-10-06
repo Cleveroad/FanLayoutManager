@@ -48,11 +48,16 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rvCards);
-        fanLayoutManager = new FanLayoutManager(getContext(),
-                FanLayoutManagerSettings.newBuilder(getContext())
-                        .withFanRadius(true)
-                        .withAngleItemBounce(5)
-                        .build());
+
+        FanLayoutManagerSettings fanLayoutManagerSettings = FanLayoutManagerSettings
+                .newBuilder(getContext())
+                .withFanRadius(true)
+                .withAngleItemBounce(5)
+                .withViewHeightDp(160)
+                .withViewWidthDp(120)
+                .build();
+
+        fanLayoutManager = new FanLayoutManager(getContext(), fanLayoutManagerSettings);
 
         recyclerView.setLayoutManager(fanLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -62,9 +67,9 @@ public class MainFragment extends Fragment {
 
         adapter.setItemClickListener(new SportCardsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClicked(int pos, final View view) {
-                if (fanLayoutManager.getSelectedItemPosition() != pos) {
-                    fanLayoutManager.switchItem(recyclerView, pos);
+            public void onItemClicked(int itemPosition, final View view) {
+                if (fanLayoutManager.getSelectedItemPosition() != itemPosition) {
+                    fanLayoutManager.switchItem(recyclerView, itemPosition);
                 } else {
                     fanLayoutManager.straightenSelectedItem(new Animator.AnimatorListener() {
                         @Override

@@ -60,6 +60,7 @@ public class FanLayoutManagerSettings {
      * {@code FanLayoutManagerSettings} builder static inner class.
      */
     public static final class Builder {
+        private static final float BOUNCE_MAX = 10;
         private Context context;
         private float viewWidthDp;
         private float viewHeightDp;
@@ -67,6 +68,7 @@ public class FanLayoutManagerSettings {
         private float angleItemBounce;
         private int viewWidthPx;
         private int viewHeightPx;
+
 
         private Builder(Context context) {
             this.context = context;
@@ -112,11 +114,14 @@ public class FanLayoutManagerSettings {
         /**
          * Sets the {@code angleItemBounce} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param angleItemBounce the {@code angleItemBounce} to set
+         * @param angleItemBounce the {@code angleItemBounce} to set in range 0f...10f
          * @return a reference to this Builder
          */
         public Builder withAngleItemBounce(float angleItemBounce) {
-            this.angleItemBounce = angleItemBounce;
+            if (angleItemBounce <= 0F) {
+                return this;
+            }
+            this.angleItemBounce = Math.min(BOUNCE_MAX, angleItemBounce);
             return this;
         }
 

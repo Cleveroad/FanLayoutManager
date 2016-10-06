@@ -196,7 +196,8 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      *
      * @param animationHelper custom animation helper.
      */
-    public void setAnimationHelper(@Nullable AnimationHelper animationHelper) {
+    @Deprecated
+    void setAnimationHelper(@Nullable AnimationHelper animationHelper) {
         this.animationHelper = animationHelper == null ? new AnimationHelperImpl() : animationHelper;
     }
 
