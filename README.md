@@ -5,7 +5,7 @@
 
 Fan Layout Manager is a new library created at Cleveroad. Our ideas don’t come from nowhere, everything we invent results from the difficulties we overcome. This exactly what happened — we were fighting uniformity! Since traditional view of the simple horizontal list isn’t impressive anymore, we decided to suggest our vision adding some colours and a completely new motion path. 
 
-![Demo image](/images/demo.gif)
+![Demo image](/images/demo_.gif)
 
 #####Check out the animation <strong><a target="_blank" href="https://youtu.be/sJhBKyvF7i4?list=PLi-FH7__aeiydOwY_1q5I8P2EUSseqUCj">Fan Layout Manager for Android on YouTube</a></strong> in HD quality.
 
