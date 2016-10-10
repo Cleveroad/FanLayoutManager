@@ -52,10 +52,10 @@ FanLayoutManagerSettings fanLayoutManagerSettings = FanLayoutManagerSettings
 fanLayoutManager = new FanLayoutManager(getContext(), fanLayoutManagerSettings);
 recyclerView.setLayoutManager(fanLayoutManager);
 ```
-**.withFanRadius(boolean isFanRadiusEnable)**    - you can enable displaying items in fan style.</p>
-**.withAngleItemBounce(float angleItemBounce)**  - added rendom bounce angle to items from [0.. angleItemBounce).</p>
-**.withViewWidthDp(float viewWidthDp)**          - custom item width. default 120dp.</p>
-**.withViewHeightDp(float viewHeightDp)**         - custom item height. default 160dp.</p>
+*.withFanRadius(boolean isFanRadiusEnable)*   - you can enable displaying items in fan style.</p>
+*.withAngleItemBounce(float angleItemBounce)* - added rendom bounce angle to items from [0.. angleItemBounce).</p>
+*.withViewWidthDp(float viewWidthDp)*         - custom item width. default 120dp.</p>
+*.withViewHeightDp(float viewHeightDp)*       - custom item height. default 160dp.</p>
 
 You can *remove bounce angle* effect for selected item:
 ```JAVA
