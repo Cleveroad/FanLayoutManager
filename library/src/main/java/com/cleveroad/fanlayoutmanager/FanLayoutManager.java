@@ -874,7 +874,28 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         if (viewToRotate != null) {
 
             // start straight animation
-            animationHelper.straightenView(viewToRotate, listener);
+            animationHelper.straightenView(viewToRotate, listener, new
+                    Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            isSelectedItemStraightened = false;
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
 
             // save state
             isSelectedItemStraightened = true;

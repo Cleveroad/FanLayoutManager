@@ -57,8 +57,11 @@ interface AnimationHelper {
     /**
      * Rotate view from custom radius to 0.
      *
-     * @param view     view to rotate
-     * @param listener animator listener to check start or end animation
+     * @param view            view to rotate
+     * @param customListener  custom animator listener to check start or end animation
+     * @param managerListener animator listener to notify layout manager of the animation state
      */
-    void straightenView(View view, @Nullable Animator.AnimatorListener listener);
+    void straightenView(View view,
+                        @Nullable Animator.AnimatorListener customListener,
+                        @Nullable Animator.AnimatorListener managerListener);
 }
