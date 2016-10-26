@@ -142,14 +142,19 @@ class AnimationHelperImpl implements AnimationHelper {
     }
 
     @Override
-    public void straightenView(View view, @Nullable Animator.AnimatorListener listener) {
+    public void straightenView(View view,
+                               @Nullable Animator.AnimatorListener customListener,
+                               @Nullable Animator.AnimatorListener managerListener) {
         if (view != null) {
             ObjectAnimator viewObjectAnimator = ObjectAnimator.ofFloat(view,
                     "rotation", view.getRotation(), 0f);
             viewObjectAnimator.setDuration(150);
             viewObjectAnimator.setInterpolator(new DecelerateInterpolator());
-            if (listener != null) {
-                viewObjectAnimator.addListener(listener);
+            if (customListener != null) {
+                viewObjectAnimator.addListener(customListener);
+            }
+            if (managerListener!= null) {
+                viewObjectAnimator.addListener(managerListener);
             }
             viewObjectAnimator.start();
         }
