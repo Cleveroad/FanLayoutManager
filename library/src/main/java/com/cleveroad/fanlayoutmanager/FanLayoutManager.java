@@ -55,7 +55,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      * Map with view (card) rotations. This need to save bounce rotations for views.
      * {@link #updateArcViewPositions}
      */
-    private final SparseArray<Double> viewRotationsMap = new SparseArray<>();
+    private final SparseArray<Float> viewRotationsMap = new SparseArray<>();
     /**
      * Map with view cache.
      */
@@ -114,6 +114,11 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      * Flag using to change bounce radius.
      */
     private boolean isSelectedItemStraightened = false;
+
+    /**
+     * Need to block some events.
+     */
+    private boolean isSelectedItemStraightenedInProcess = false;
 
     /**
      * Need to block some events while collapsing views.
@@ -189,6 +194,14 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      */
     public int getSelectedItemPosition() {
         return selectedItemPosition;
+    }
+
+
+    /**
+     * @return is selected item straightened or has base (bounce) rotation
+     */
+    public boolean isSelectedItemStraightened() {
+        return isSelectedItemStraightened;
     }
 
     /**
@@ -449,15 +462,21 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
             }
 
             viewPosition = getPosition(view);
-            Double baseViewRotation = viewRotationsMap.get(viewPosition);
+            Float baseViewRotation = viewRotationsMap.get(viewPosition);
 
             if (baseViewRotation == null) {
                 // generate base (bounce) rotation for view.
-                baseViewRotation = random.nextDouble() * settings.getAngleItemBounce() * 2 - settings.getAngleItemBounce();
+                baseViewRotation = generateBaseViewRotation();
                 viewRotationsMap.put(viewPosition, baseViewRotation);
             }
-            view.setRotation((float) (rotation + baseViewRotation));
+
+            view.setRotation((float) (rotation + (selectedItemPosition == viewPosition && isSelectedItemStraightened ?
+                    0 : baseViewRotation)));
         }
+    }
+
+    private float generateBaseViewRotation() {
+        return random.nextFloat() * settings.getAngleItemBounce() * 2 - settings.getAngleItemBounce();
     }
 
     /**
@@ -597,7 +616,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      */
     public void switchItem(@Nullable RecyclerView recyclerView, final int selectedViewPosition) {
         if (isDeselectAnimationInProcess || isSelectAnimationInProcess || isViewCollapsing ||
-                isWaitingToDeselectAnimation || isWaitingToSelectAnimation || isSelectedItemStraightened) {
+                isWaitingToDeselectAnimation || isWaitingToSelectAnimation || isSelectedItemStraightenedInProcess) {
             // block event if any animation in progress
             return;
         }
@@ -724,6 +743,29 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
             return;
         }
 
+        if (isSelectedItemStraightened) {
+            restoreBaseRotationSelectedItem(new SimpleAnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    closeItem(recyclerView, position, scrollToPosition, delay);
+                }
+            });
+        } else {
+            closeItem(recyclerView, position, scrollToPosition, delay);
+        }
+
+    }
+
+    /**
+     * Close item
+     *
+     * @param recyclerView     RecyclerView for this LayoutManager
+     * @param position         position item for deselect
+     * @param scrollToPosition position to scroll after deselect
+     * @param delay            waiting duration before start deselect
+     */
+
+    private void closeItem(final RecyclerView recyclerView, final int position, final int scrollToPosition, final int delay) {
         // search view by position
         View viewToDeselect = null;
         for (int count = getChildCount(), i = 0; i < count; i++) {
@@ -843,15 +885,15 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
     }
 
     /**
-     * Method need to remove bounce item radius
+     * Method need to remove bounce item rotation
      *
      * @param listener straighten function listener
      */
-    public void straightenSelectedItem(Animator.AnimatorListener listener) {
+    public void straightenSelectedItem(final Animator.AnimatorListener listener) {
         // check all animations
         if (selectedItemPosition == RecyclerView.NO_POSITION || isSelectAnimationInProcess ||
-                isDeselectAnimationInProcess || isSelectedItemStraightened || isWaitingToDeselectAnimation ||
-                isWaitingToSelectAnimation || isViewCollapsing) {
+                isDeselectAnimationInProcess || isSelectedItemStraightenedInProcess || isWaitingToDeselectAnimation ||
+                isWaitingToSelectAnimation || isViewCollapsing || isSelectedItemStraightened) {
             // block if any animation in progress
             return;
         }
@@ -874,12 +916,123 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         if (viewToRotate != null) {
 
             // start straight animation
-            animationHelper.straightenView(viewToRotate, listener);
+            animationHelper.straightenView(viewToRotate, new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationStart(animation);
+                    }
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationEnd(animation);
+                    }
+                    isSelectedItemStraightened = true;
+                    isSelectedItemStraightenedInProcess = false;
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationCancel(animation);
+                    }
+                    isSelectedItemStraightened = true;
+                    isSelectedItemStraightenedInProcess = false;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationRepeat(animation);
+                    }
+                }
+            });
 
             // save state
-            isSelectedItemStraightened = true;
+            isSelectedItemStraightenedInProcess = true;
+        }
+    }
+
+    /**
+     * Method need to restore base (bounce) rotation for item
+     *
+     * @param listener rotate function listener
+     */
+    public void restoreBaseRotationSelectedItem(final Animator.AnimatorListener listener) {
+        // check all animations
+        if (selectedItemPosition == RecyclerView.NO_POSITION || isSelectAnimationInProcess ||
+                isDeselectAnimationInProcess || isSelectedItemStraightenedInProcess || isWaitingToDeselectAnimation ||
+                isWaitingToSelectAnimation || isViewCollapsing || !isSelectedItemStraightened) {
+            // block if any animation in progress
+            return;
         }
 
+        // +++++ prepare data +++++
+        View viewToRotate = null;
+        View view;
+        // ----- prepare data -----
+
+        // search selected view
+        for (int count = getChildCount(), i = 0; i < count; i++) {
+            view = getChildAt(i);
+
+            if (selectedItemPosition == getPosition(view)) {
+                viewToRotate = view;
+            }
+        }
+
+        Float baseViewRotation = viewRotationsMap.get(selectedItemPosition);
+
+        if (baseViewRotation == null) {
+            // generate base (bounce) rotation for view.
+            baseViewRotation = generateBaseViewRotation();
+            viewRotationsMap.put(selectedItemPosition, baseViewRotation);
+        }
+
+        if (viewToRotate != null) {
+
+            // start straight animation
+            animationHelper.rotateView(viewToRotate, baseViewRotation, new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationStart(animation);
+                    }
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationEnd(animation);
+                    }
+                    isSelectedItemStraightened = false;
+                    isSelectedItemStraightenedInProcess = false;
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationCancel(animation);
+                    }
+                    isSelectedItemStraightened = false;
+                    isSelectedItemStraightenedInProcess = false;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                    if (listener != null) {
+                        listener.onAnimationRepeat(animation);
+                    }
+                }
+            });
+
+            // save state
+            isSelectedItemStraightenedInProcess = true;
+        }
     }
 
     /**
@@ -889,7 +1042,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         // check all animations
         if (isSelectAnimationInProcess || isWaitingToSelectAnimation ||
                 isDeselectAnimationInProcess || isWaitingToDeselectAnimation ||
-                isSelectedItemStraightened || isViewCollapsing) {
+                isSelectedItemStraightenedInProcess || isViewCollapsing) {
             return;
         }
         // steps:

@@ -55,10 +55,19 @@ interface AnimationHelper {
     float getViewScaleFactor();
 
     /**
-     * Rotate view from custom radius to 0.
+     * Rotate view from custom angle to 0.
      *
      * @param view     view to rotate
      * @param listener animator listener to check start or end animation
      */
     void straightenView(View view, @Nullable Animator.AnimatorListener listener);
+
+    /**
+     * Rotate view from current to custom angle.
+     *
+     * @param view     view to rotate
+     * @param angle   rotate angle
+     * @param listener animator listener to check start or end animation
+     */
+    void rotateView(View view, float angle, @Nullable Animator.AnimatorListener listener);
 }
