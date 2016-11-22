@@ -67,6 +67,8 @@ You can collapse views using:
 ```JAVA
 public void collapseViews();
 ```
+## Changelog
+See [changelog history].
 
 ## Support
 If you have any questions regarding the use of this tutorial, please contact us for support
@@ -102,3 +104,4 @@ at info@cleveroad.com (email subject: «FanLayoutManager for Android. Support re
         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
+[changelog history]: /CHANGELOG.md
