@@ -18,7 +18,7 @@ Using Fan Layout Manager you can implement the horizontal list, the items of whi
 ### Installation ###
 by Gradle:
 ```groovy
-    compile 'com.cleveroad:fan-layout-manager:1.0.1'
+    compile 'com.cleveroad:fan-layout-manager:1.0.2'
 ```
 ### Setup and usage ###
 Use default FanLayoutManager in code:
@@ -61,6 +61,10 @@ recyclerView.setLayoutManager(fanLayoutManager);
 You can *remove bounce angle* effect for selected item:
 ```JAVA
 public void straightenSelectedItem(Animator.AnimatorListener listener);
+```
+and you can *restore bounce angle* effect for selected item:
+```JAVA
+public void restoreBaseRotationSelectedItem(Animator.AnimatorListener listener)
 ```
 
 You can collapse views using:
