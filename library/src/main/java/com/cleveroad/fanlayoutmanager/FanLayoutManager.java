@@ -1130,7 +1130,12 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      * @return position of center view
      */
     private int findCurrentCenterViewPos() {
-        return getPosition(findCurrentCenterView());
+        View centerView = findCurrentCenterView();
+        if (centerView != null) {
+            return getPosition(centerView);
+        } else {
+            return RecyclerView.NO_POSITION;
+        }
     }
 
     private static class SavedState implements Parcelable {
