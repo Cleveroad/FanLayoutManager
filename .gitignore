@@ -91,3 +91,6 @@ captures/
 
 # Keystore files
 *.jks
+.idea/
+gradle/
+gradlew
