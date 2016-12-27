@@ -11,15 +11,15 @@ import java.lang.ref.WeakReference;
  */
 public class FanChildDrawingOrderCallback implements RecyclerView.ChildDrawingOrderCallback {
 
-    private WeakReference<RecyclerView.LayoutManager> layoutManagerWeakReference;
+    private WeakReference<RecyclerView.LayoutManager> mLayoutManagerWeakReference;
 
     public FanChildDrawingOrderCallback(RecyclerView.LayoutManager layoutManager) {
-        layoutManagerWeakReference = new WeakReference<>(layoutManager);
+        mLayoutManagerWeakReference = new WeakReference<>(layoutManager);
     }
 
     @Override
     public int onGetChildDrawingOrder(int childCount, int i) {
-        RecyclerView.LayoutManager layoutManager = layoutManagerWeakReference.get();
+        RecyclerView.LayoutManager layoutManager = mLayoutManagerWeakReference.get();
         if (layoutManager != null) {
             View startView = layoutManager.getChildAt(0);
             int position = layoutManager.getPosition(startView);

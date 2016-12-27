@@ -11,20 +11,20 @@ public class FanLayoutManagerSettings {
     private static final float DEFAULT_VIEW_WIDTH_DP = 120;
     private static final float DEFAULT_VIEW_HEIGHT_DP = 160;
 
-    private float viewWidthDp;
-    private float viewHeightDp;
-    private int viewWidthPx;
-    private int viewHeightPx;
-    private boolean isFanRadiusEnable;
-    private float angleItemBounce;
+    private float mViewWidthDp;
+    private float mViewHeightDp;
+    private int mViewWidthPx;
+    private int mViewHeightPx;
+    private boolean mIsFanRadiusEnable;
+    private float mAngleItemBounce;
 
     private FanLayoutManagerSettings(Builder builder) {
-        viewWidthDp = builder.viewWidthDp;
-        viewHeightDp = builder.viewHeightDp;
-        isFanRadiusEnable = builder.isFanRadiusEnable;
-        angleItemBounce = builder.angleItemBounce;
-        viewWidthPx = builder.viewWidthPx;
-        viewHeightPx = builder.viewHeightPx;
+        mViewWidthDp = builder.mViewWidthDp;
+        mViewHeightDp = builder.mViewHeightDp;
+        mIsFanRadiusEnable = builder.mIsFanRadiusEnable;
+        mAngleItemBounce = builder.mAngleItemBounce;
+        mViewWidthPx = builder.mViewWidthPx;
+        mViewHeightPx = builder.mViewHeightPx;
     }
 
     public static Builder newBuilder(Context context) {
@@ -32,27 +32,27 @@ public class FanLayoutManagerSettings {
     }
 
     float getViewWidthDp() {
-        return viewWidthDp;
+        return mViewWidthDp;
     }
 
     float getViewHeightDp() {
-        return viewHeightDp;
+        return mViewHeightDp;
     }
 
     boolean isFanRadiusEnable() {
-        return isFanRadiusEnable;
+        return mIsFanRadiusEnable;
     }
 
     float getAngleItemBounce() {
-        return angleItemBounce;
+        return mAngleItemBounce;
     }
 
     int getViewWidthPx() {
-        return viewWidthPx;
+        return mViewWidthPx;
     }
 
     int getViewHeightPx() {
-        return viewHeightPx;
+        return mViewHeightPx;
     }
 
 
@@ -61,67 +61,67 @@ public class FanLayoutManagerSettings {
      */
     public static final class Builder {
         private static final float BOUNCE_MAX = 10;
-        private Context context;
-        private float viewWidthDp;
-        private float viewHeightDp;
-        private boolean isFanRadiusEnable;
-        private float angleItemBounce;
-        private int viewWidthPx;
-        private int viewHeightPx;
+        private Context mContext;
+        private float mViewWidthDp;
+        private float mViewHeightDp;
+        private boolean mIsFanRadiusEnable;
+        private float mAngleItemBounce;
+        private int mViewWidthPx;
+        private int mViewHeightPx;
 
 
         private Builder(Context context) {
-            this.context = context;
+            mContext = context;
         }
 
         /**
-         * Sets the {@code viewWidthDp} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code mViewWidthDp} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param viewWidthDp the {@code viewWidthDp} to set
+         * @param viewWidthDp the {@code mViewWidthDp} to set
          * @return a reference to this Builder
          */
         public Builder withViewWidthDp(float viewWidthDp) {
-            this.viewWidthDp = viewWidthDp;
-            this.viewWidthPx = Math.round(context.getResources().getDisplayMetrics().density * viewWidthDp);
-            this.viewWidthPx = Math.min(context.getResources().getDisplayMetrics().widthPixels, this.viewWidthPx);
+            mViewWidthDp = viewWidthDp;
+            mViewWidthPx = Math.round(mContext.getResources().getDisplayMetrics().density * viewWidthDp);
+            mViewWidthPx = Math.min(mContext.getResources().getDisplayMetrics().widthPixels, mViewWidthPx);
             return this;
         }
 
         /**
-         * Sets the {@code viewHeightDp} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code mViewHeightDp} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param viewHeightDp the {@code viewHeightDp} to set
+         * @param viewHeightDp the {@code mViewHeightDp} to set
          * @return a reference to this Builder
          */
         public Builder withViewHeightDp(float viewHeightDp) {
-            this.viewHeightDp = viewHeightDp;
-            this.viewHeightPx = Math.round(context.getResources().getDisplayMetrics().density * viewHeightDp);
-            this.viewHeightPx = Math.min(context.getResources().getDisplayMetrics().heightPixels, this.viewHeightPx);
+            mViewHeightDp = viewHeightDp;
+            mViewHeightPx = Math.round(mContext.getResources().getDisplayMetrics().density * viewHeightDp);
+            mViewHeightPx = Math.min(mContext.getResources().getDisplayMetrics().heightPixels, mViewHeightPx);
             return this;
         }
 
         /**
          * Sets the {@code fanRadius} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param isFanRadiusEnable the {@code isFanRadiusEnable} to set
+         * @param isFanRadiusEnable the {@code mIsFanRadiusEnable} to set
          * @return a reference to this Builder
          */
         public Builder withFanRadius(boolean isFanRadiusEnable) {
-            this.isFanRadiusEnable = isFanRadiusEnable;
+            mIsFanRadiusEnable = isFanRadiusEnable;
             return this;
         }
 
         /**
-         * Sets the {@code angleItemBounce} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code mAngleItemBounce} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param angleItemBounce the {@code angleItemBounce} to set in range 0f...10f
+         * @param angleItemBounce the {@code mAngleItemBounce} to set in range 0f...10f
          * @return a reference to this Builder
          */
         public Builder withAngleItemBounce(float angleItemBounce) {
             if (angleItemBounce <= 0F) {
                 return this;
             }
-            this.angleItemBounce = Math.min(BOUNCE_MAX, angleItemBounce);
+            mAngleItemBounce = Math.min(BOUNCE_MAX, angleItemBounce);
             return this;
         }
 
@@ -131,10 +131,10 @@ public class FanLayoutManagerSettings {
          * @return a {@code FanLayoutManagerSettings} built with parameters of this {@code FanLayoutManagerSettings.Builder}
          */
         public FanLayoutManagerSettings build() {
-            if (Float.compare(viewWidthDp, 0F) == 0) {
+            if (Float.compare(mViewWidthDp, 0F) == 0) {
                 withViewWidthDp(DEFAULT_VIEW_WIDTH_DP);
             }
-            if (Float.compare(viewHeightDp, 0F) == 0) {
+            if (Float.compare(mViewHeightDp, 0F) == 0) {
                 withViewHeightDp(DEFAULT_VIEW_HEIGHT_DP);
             }
             return new FanLayoutManagerSettings(this);
