@@ -144,7 +144,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
 
     public FanLayoutManager(@NonNull Context context, @Nullable FanLayoutManagerSettings settings) {
         // create default settings
-        this.settings = settings == null ? FanLayoutManagerSettings.newBuilder(context).build() : settings;
+        mSettings = settings == null ? FanLayoutManagerSettings.newBuilder(context).build() : settings;
         // create default animation helper
         mAnimationHelper = new AnimationHelperImpl();
         // create default FanCardScroller
