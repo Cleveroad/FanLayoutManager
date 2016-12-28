@@ -33,6 +33,9 @@ class ViewAnimationInfoGenerator {
                                                   boolean isCollapsed) {
 
         final List<ViewAnimationInfo> infoViews = new ArrayList<>();
+        if (centerViewPos == RecyclerView.NO_POSITION) {
+            return infoViews;
+        }
         // +++++ prepare data +++++
         View view;
         int viewPosition;

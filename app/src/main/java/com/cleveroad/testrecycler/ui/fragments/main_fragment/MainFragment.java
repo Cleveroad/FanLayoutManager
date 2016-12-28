@@ -65,7 +65,7 @@ public class MainFragment extends Fragment {
         adapter = new SportCardsAdapter(getContext());
         adapter.addAll(SportCardsUtils.generateSportCards());
 
-        adapter.setItemClickListener(new SportCardsAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new SportCardsAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, final View view) {
                 if (fanLayoutManager.getSelectedItemPosition() != itemPosition) {
