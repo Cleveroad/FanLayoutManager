@@ -18,7 +18,7 @@ Using Fan Layout Manager you can implement the horizontal list, the items of whi
 ### Installation ###
 by Gradle:
 ```groovy
-    compile 'com.cleveroad:fan-layout-manager:1.0.3'
+    compile 'com.cleveroad:fan-layout-manager:1.0.4'
 ```
 ### Setup and usage ###
 Use default FanLayoutManager in code:
