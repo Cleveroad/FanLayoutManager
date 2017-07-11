@@ -1,8 +1,11 @@
 package com.cleveroad.testrecycler.ui.fragments.main_fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +16,9 @@ import android.widget.TextView;
 
 import com.cleveroad.testrecycler.R;
 import com.cleveroad.testrecycler.models.SportCardModel;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,16 +66,16 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
         holder.tvSportTitle.setText(item.getSportTitle());
         holder.tvSportSubtitle.setText(item.getSportSubtitle());
         holder.tvSportRound.setText(item.getSportRound());
-        holder.ivSportPreview.setImageResource(item.getImageResId());
         holder.tvTime.setText(item.getTime());
         holder.tvDayPart.setText(item.getDayPart());
 
         ((CardView) holder.itemView).setCardBackgroundColor(ContextCompat.getColor(mContext, item.getBackgroundColorResId()));
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.ivSportPreview.setTransitionName("shared" + String.valueOf(position));
+            ViewCompat.setTransitionName(holder.ivSportPreview, "shared" + String.valueOf(position));
         }
+
+        holder.setImage(item.getImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,5 +127,47 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
             tvDayPart = (TextView) itemView.findViewById(R.id.tvDayPart);
         }
+
+        public void setImage(final String image) {
+            Transformation transformation = new Transformation() {
+                @Override
+                public Bitmap transform(Bitmap source) {
+                    int targetWidth = ivSportPreview.getWidth();
+
+                    double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                    int targetHeight = (int) (targetWidth * aspectRatio);
+                    Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                }
+
+                @Override
+                public String key() {
+                    return "transformation" + " desiredWidth";
+                }
+            };
+            Picasso.with(mContext).cancelRequest(ivSportPreview);
+            Picasso.with(mContext)
+                    .load(image)
+                    .transform(transformation)
+                    .noPlaceholder()
+                    .into(ivSportPreview, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            //Update drawable color asynchronously
+                            Bitmap imageBitmap = ((BitmapDrawable) ivSportPreview.getDrawable()).getBitmap();
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            String errorMessage = String.format("ERROR: Could not load image with URI %s", image);
+                        }
+                    });
+        }
+
     }
 }
