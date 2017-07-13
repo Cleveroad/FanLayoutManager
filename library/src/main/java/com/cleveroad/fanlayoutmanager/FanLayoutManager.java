@@ -138,6 +138,11 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      */
     private boolean mIsCollapsed = false;
 
+    /**
+     * View in center of screen
+     */
+    private View mCenterView = null;
+
     public FanLayoutManager(@NonNull Context context) {
         this(context, null);
     }
@@ -226,6 +231,12 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        // find center view before detach or recycle all views
+        mCenterView = findCurrentCenterView();
+        if (getItemCount() == 0) {
+            detachAndScrapAttachedViews(recycler);
+            return;
+        }
         detachAndScrapAttachedViews(recycler);
         fill(recycler);
     }
@@ -236,16 +247,6 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      * @param recycler recycler from the recyclerView
      */
     private void fill(RecyclerView.Recycler recycler) {
-        // find center view before detach or recycle all views
-        View centerView = findCurrentCenterView();
-
-        // position for center view
-        int centerViewPosition = centerView == null ? 0 : getPosition(centerView);
-
-        // left offset for center view
-        int centerViewOffset = centerView == null ? (int) (getWidth() / 2F - mSettings.getViewWidthPx() / 2F) :
-                getDecoratedLeft(centerView);
-
         mViewCache.clear();
 
         for (int i = 0, cnt = getChildCount(); i < cnt; i++) {
@@ -253,10 +254,15 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
             int pos = getPosition(view);
             mViewCache.put(pos, view);
         }
-
         for (int i = 0; i < mViewCache.size(); i++) {
             detachView(mViewCache.valueAt(i));
         }
+        // position for center view
+        int centerViewPosition = mCenterView == null ? 0 : getPosition(mCenterView);
+
+        // left offset for center view
+        int centerViewOffset = mCenterView == null ? (int) (getWidth() / 2F - mSettings.getViewWidthPx() / 2F) :
+                getDecoratedLeft(mCenterView);
 
         // main fill logic
         if (mScrollToPosition != RecyclerView.NO_POSITION) {
@@ -267,12 +273,18 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
             fillRightFromCenter(centerViewPosition, centerViewOffset, recycler);
         }
 
+        //update center view after recycle all views
+        if (getChildCount() != 0) {
+            mCenterView = findCurrentCenterView();
+        }
+
         for (int i = 0; i < mViewCache.size(); i++) {
             recycler.recycleView(mViewCache.valueAt(i));
         }
         // update rotations.
         updateArcViewPositions();
     }
+
 
     /**
      * Measure view with margins and specs
@@ -530,7 +542,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         // --------- Prepare data ---------
 
         // search left position for first view
-        while (leftViewOffset > leftBorder) {
+        while (leftViewOffset > leftBorder && leftViewPosition >= 0) {
             if (mIsCollapsed) {
                 // offset for collapsed views
                 leftViewOffset -= (mSettings.getViewWidthPx() + Math.abs(overlapDistance));
@@ -582,7 +594,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
                 layoutDecorated(view, leftViewOffset, baseTopMargin,
                         leftViewOffset + mSettings.getViewWidthPx(), baseTopMargin + mSettings.getViewHeightPx());
             } else {
-                attachView(view);
+                attachView(view, leftViewPosition);
                 mViewCache.remove(leftViewPosition);
             }
 
@@ -1114,8 +1126,8 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         // +++++ prepare data +++++
 
         // center of the screen in x-axis
-        float centerX = getWidth() / 2;
-        float viewHalfWidth = mSettings.getViewWidthPx() / 2;
+        float centerX = getWidth() / 2F;
+        float viewHalfWidth = mSettings.getViewWidthPx() / 2F;
         View nearestToCenterView = null;
         int nearestDeltaX = 0;
         View item;
@@ -1140,7 +1152,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
      * @return position of center view or {@link RecyclerView#NO_POSITION}
      */
     private int findCurrentCenterViewPos() {
-        View view = findCurrentCenterView();
+        View view = mCenterView;
         return view == null ? RecyclerView.NO_POSITION : getPosition(view);
     }
 

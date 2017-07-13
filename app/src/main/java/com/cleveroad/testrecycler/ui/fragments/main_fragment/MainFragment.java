@@ -53,17 +53,18 @@ public class MainFragment extends Fragment {
                 .newBuilder(getContext())
                 .withFanRadius(true)
                 .withAngleItemBounce(5)
-                .withViewHeightDp(400)
-                .withViewWidthDp(300)
+                .withViewHeightDp(160)
+                .withViewWidthDp(120)
                 .build();
 
         fanLayoutManager = new FanLayoutManager(getContext(), fanLayoutManagerSettings);
+
         recyclerView.setLayoutManager(fanLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
+
         adapter = new SportCardsAdapter(getContext());
         adapter.addAll(SportCardsUtils.generateSportCards());
-        recyclerView.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new SportCardsAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, final View view) {

@@ -21,8 +21,6 @@ import com.cleveroad.testrecycler.R;
 import com.cleveroad.testrecycler.models.AthleticModel;
 import com.cleveroad.testrecycler.models.Country;
 import com.cleveroad.testrecycler.models.SportCardModel;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,21 +77,7 @@ public class FullInfoTabFragment extends Fragment {
             }
         });
         toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), sportCardModel.getBackgroundColorResId()));
-        Picasso.with(getContext())
-                .load(sportCardModel.getImage())
-                .noFade()
-                .into(ivPhoto, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        startPostponedEnterTransition();
-                    }
-
-                    @Override
-                    public void onError() {
-                        startPostponedEnterTransition();
-                    }
-                });
-//        ivPhoto.setImageResource(sportCardModel.getImageResId());
+        ivPhoto.setImageResource(sportCardModel.getImageResId());
         List<AthleticModel> items = new ArrayList<>();
         for (int i = 10; i > 0; i--) {
             int points = i * 100;

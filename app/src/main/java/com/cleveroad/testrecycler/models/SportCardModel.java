@@ -9,7 +9,6 @@ public class SportCardModel implements Parcelable {
     private String sportRound;
 
     private int imageResId;
-    private String image;
 
     private String time;
     private String dayPart;
@@ -24,7 +23,6 @@ public class SportCardModel implements Parcelable {
         time = builder.time;
         dayPart = builder.dayPart;
         backgroundColorResId = builder.backgroundColorResId;
-        image = builder.image;
     }
 
     public static Builder newBuilder() {
@@ -59,17 +57,8 @@ public class SportCardModel implements Parcelable {
         return backgroundColorResId;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     /**
      * constructor for Parcelable implementation
-     *
      * @param parcel
      */
     private SportCardModel(Parcel parcel) {
@@ -80,7 +69,6 @@ public class SportCardModel implements Parcelable {
         time = parcel.readString();
         dayPart = parcel.readString();
         backgroundColorResId = parcel.readInt();
-        image = parcel.readString();
     }
 
     @Override
@@ -97,7 +85,6 @@ public class SportCardModel implements Parcelable {
         parcel.writeString(time);
         parcel.writeString(dayPart);
         parcel.writeInt(backgroundColorResId);
-        parcel.writeString(image);
     }
 
     @SuppressWarnings("unused")
@@ -125,7 +112,6 @@ public class SportCardModel implements Parcelable {
         private String time;
         private String dayPart;
         private int backgroundColorResId;
-        private String image;
 
         private Builder() {
         }
@@ -149,11 +135,6 @@ public class SportCardModel implements Parcelable {
          */
         public Builder withSportSubtitle(String sportSubtitle) {
             this.sportSubtitle = sportSubtitle;
-            return this;
-        }
-
-        public Builder withImage(String image) {
-            this.image = image;
             return this;
         }
 
