@@ -19,7 +19,8 @@ Using Fan Layout Manager you can implement the horizontal list, the items of whi
 
 Version | Changes
 ---     | ---
-v.1.0.4 | Fix issue with notifyDataSetChanged
-v.1.0.3 | Fix issue with empty list
-v.1.0.2 | Fix issue with straighten item
-v.1.0.1 | Minor fixes
+v.1.0.5 | <ul><li>Fix issue with reset position when using Picasso</li><li>Update versions of support library and build tools</li></ul>
+v.1.0.4 | <ul><li> Fix issue with notifyDataSetChanged</li></ul>
+v.1.0.3 |  <ul><li>Fix issue with empty list</li></ul>
+v.1.0.2 |  <ul><li>Fix issue with straighten item</li></ul>
+v.1.0.1 |  <ul><li>Minor fixes</li></ul>
