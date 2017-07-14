@@ -22,9 +22,9 @@ import com.cleveroad.testrecycler.ui.fragments.full_info_fragment.FullInfoTabFra
 
 public class MainFragment extends Fragment {
 
-    private FanLayoutManager fanLayoutManager;
+    private FanLayoutManager mFanLayoutManager;
 
-    private SportCardsAdapter adapter;
+    private SportCardsAdapter mAdapter;
 
     public static MainFragment newInstance() {
         Bundle args = new Bundle();
@@ -57,21 +57,21 @@ public class MainFragment extends Fragment {
                 .withViewWidthDp(120)
                 .build();
 
-        fanLayoutManager = new FanLayoutManager(getContext(), fanLayoutManagerSettings);
+        mFanLayoutManager = new FanLayoutManager(getContext(), fanLayoutManagerSettings);
 
-        recyclerView.setLayoutManager(fanLayoutManager);
+        recyclerView.setLayoutManager(mFanLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new SportCardsAdapter(getContext());
-        adapter.addAll(SportCardsUtils.generateSportCards());
+        mAdapter = new SportCardsAdapter(getContext());
+        mAdapter.addAll(SportCardsUtils.generateSportCards());
 
-        adapter.setOnItemClickListener(new SportCardsAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new SportCardsAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, final View view) {
-                if (fanLayoutManager.getSelectedItemPosition() != itemPosition) {
-                    fanLayoutManager.switchItem(recyclerView, itemPosition);
+                if (mFanLayoutManager.getSelectedItemPosition() != itemPosition) {
+                    mFanLayoutManager.switchItem(recyclerView, itemPosition);
                 } else {
-                    fanLayoutManager.straightenSelectedItem(new Animator.AnimatorListener() {
+                    mFanLayoutManager.straightenSelectedItem(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animator) {
 
@@ -80,9 +80,9 @@ public class MainFragment extends Fragment {
                         @Override
                         public void onAnimationEnd(Animator animator) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                onClick(view, fanLayoutManager.getSelectedItemPosition());
+                                onClick(view, mFanLayoutManager.getSelectedItemPosition());
                             } else {
-                                onClick(fanLayoutManager.getSelectedItemPosition());
+                                onClick(mFanLayoutManager.getSelectedItemPosition());
                             }
                         }
 
@@ -100,14 +100,14 @@ public class MainFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setChildDrawingOrderCallback(new FanChildDrawingOrderCallback(fanLayoutManager));
+        recyclerView.setChildDrawingOrderCallback(new FanChildDrawingOrderCallback(mFanLayoutManager));
 
         (view.findViewById(R.id.logo)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fanLayoutManager.collapseViews();
+                mFanLayoutManager.collapseViews();
             }
         });
 
@@ -115,7 +115,7 @@ public class MainFragment extends Fragment {
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onClick(View view, int pos) {
-        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos));
+        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(mAdapter.getModelByPos(pos));
 
         fragment.setSharedElementEnterTransition(new SharedTransitionSet());
         fragment.setEnterTransition(new Fade());
@@ -131,7 +131,7 @@ public class MainFragment extends Fragment {
     }
 
     public void onClick(int pos) {
-        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(adapter.getModelByPos(pos));
+        FullInfoTabFragment fragment = FullInfoTabFragment.newInstance(mAdapter.getModelByPos(pos));
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, fragment)
@@ -140,8 +140,8 @@ public class MainFragment extends Fragment {
     }
 
     public boolean deselectIfSelected() {
-        if (fanLayoutManager.isItemSelected()) {
-            fanLayoutManager.deselectItem();
+        if (mFanLayoutManager.isItemSelected()) {
+            mFanLayoutManager.deselectItem();
             return true;
         } else {
             return false;
