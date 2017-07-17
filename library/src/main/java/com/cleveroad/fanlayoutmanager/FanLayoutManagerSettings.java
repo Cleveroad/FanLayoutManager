@@ -8,8 +8,8 @@ import android.content.Context;
  */
 public class FanLayoutManagerSettings {
 
-    private static final float DEFAULT_VIEW_WIDTH_DP = 120;
-    private static final float DEFAULT_VIEW_HEIGHT_DP = 160;
+    private static final float DEFAULT_VIEW_WIDTH_DP = 120F;
+    private static final float DEFAULT_VIEW_HEIGHT_DP = 160F;
 
     private float mViewWidthDp;
     private float mViewHeightDp;
@@ -60,7 +60,7 @@ public class FanLayoutManagerSettings {
      * {@code FanLayoutManagerSettings} builder static inner class.
      */
     public static final class Builder {
-        private static final float BOUNCE_MAX = 10;
+        private static final float BOUNCE_MAX = 10F;
         private Context mContext;
         private float mViewWidthDp;
         private float mViewHeightDp;
