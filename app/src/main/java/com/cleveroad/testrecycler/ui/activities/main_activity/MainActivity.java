@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.root);
+        if (fragment instanceof MainFragment) {
+            mMainFragment = (MainFragment) fragment;
+        }
         if (mMainFragment == null || !mMainFragment.isAdded() || !mMainFragment.deselectIfSelected()) {
             super.onBackPressed();
         }
