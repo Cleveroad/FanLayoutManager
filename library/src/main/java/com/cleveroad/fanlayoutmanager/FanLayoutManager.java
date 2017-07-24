@@ -186,8 +186,6 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         return mPendingSavedState;
     }
 
-    // I'm sure in all casts
-    @SuppressWarnings("unchecked")
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         if (state != null && state instanceof FanLayoutManager.SavedState) {
@@ -1233,7 +1231,7 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
         int mCenterItemPosition = RecyclerView.NO_POSITION;
         boolean isCollapsed;
         boolean isSelected;
-        SparseArray mRotation;
+        SparseArray<Float> mRotation;
 
         public SavedState() {
 
@@ -1243,7 +1241,8 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
             mCenterItemPosition = in.readInt();
             isCollapsed = in.readInt() == 1;
             isSelected = in.readInt() == 1;
-            mRotation = in.readSparseArray(getClass().getClassLoader());
+            //noinspection unchecked
+            mRotation = (SparseArray<Float>) in.readSparseArray(SparseArray.class.getClassLoader());
         }
 
         public SavedState(FanLayoutManager.SavedState other) {
@@ -1258,13 +1257,13 @@ public class FanLayoutManager extends RecyclerView.LayoutManager {
             return 0;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeInt(mCenterItemPosition);
             dest.writeInt(isCollapsed ? 1 : 0);
             dest.writeInt(isSelected ? 1 : 0);
-            dest.writeSparseArray(mRotation);
+            //noinspection unchecked
+            dest.writeSparseArray((SparseArray)mRotation);
         }
     }
 

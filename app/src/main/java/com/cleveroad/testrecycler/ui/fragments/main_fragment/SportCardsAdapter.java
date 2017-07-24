@@ -24,7 +24,7 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
     private OnItemClickListener mOnItemClickListener;
 
     SportCardsAdapter(Context context) {
-        this.mContext = context;
+        mContext = context;
     }
 
     public boolean add(SportCardModel item) {
@@ -91,7 +91,7 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
     }
 
     void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
+        mOnItemClickListener = onItemClickListener;
     }
 
     SportCardModel getModelByPos(int pos) {
