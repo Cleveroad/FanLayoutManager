@@ -153,7 +153,20 @@ class AnimationHelperImpl implements AnimationHelper {
             }
             viewObjectAnimator.start();
         }
+    }
 
+    @Override
+    public void rotateView(View view, float angle, @Nullable Animator.AnimatorListener listener) {
+        if (view != null) {
+            ObjectAnimator viewObjectAnimator = ObjectAnimator.ofFloat(view,
+                    "rotation", view.getRotation(), angle);
+            viewObjectAnimator.setDuration(150);
+            viewObjectAnimator.setInterpolator(new DecelerateInterpolator());
+            if (listener != null) {
+                viewObjectAnimator.addListener(listener);
+            }
+            viewObjectAnimator.start();
+        }
     }
 
 

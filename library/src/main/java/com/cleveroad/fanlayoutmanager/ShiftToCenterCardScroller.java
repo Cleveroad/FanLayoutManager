@@ -37,11 +37,6 @@ class ShiftToCenterCardScroller extends BaseSmoothScroller {
     }
 
     @Override
-    protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
-        super.onTargetFound(targetView, state, action);
-    }
-
-    @Override
     protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
         return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
     }

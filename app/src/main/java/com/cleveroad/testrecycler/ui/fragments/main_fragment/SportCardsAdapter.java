@@ -19,33 +19,32 @@ import java.util.Collection;
 import java.util.List;
 
 class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCardViewHolder> {
-    private final List<SportCardModel> items = new ArrayList<>();
-    private Context context;
-    private OnItemClickListener itemClickListener;
+    private final List<SportCardModel> mItems = new ArrayList<>();
+    private Context mContext;
+    private OnItemClickListener mOnItemClickListener;
 
     SportCardsAdapter(Context context) {
-        this.context = context;
+        mContext = context;
     }
 
     public boolean add(SportCardModel item) {
-        boolean isAdded = items.add(item);
+        boolean isAdded = mItems.add(item);
         if (isAdded) {
-            notifyItemInserted(items.size() - 1);
+            notifyDataSetChanged();
         }
         return isAdded;
     }
 
     boolean addAll(Collection<SportCardModel> items) {
-        int start = this.items.size();
-        boolean isAdded = this.items.addAll(items);
+        boolean isAdded = mItems.addAll(items);
         if (isAdded) {
-            notifyItemRangeInserted(start, items.size());
+            notifyDataSetChanged();
         }
         return isAdded;
     }
 
     public void clear() {
-        items.clear();
+        mItems.clear();
         notifyDataSetChanged();
     }
 
@@ -57,7 +56,7 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
 
     @Override
     public void onBindViewHolder(final SportCardViewHolder holder, int position) {
-        SportCardModel item = items.get(position);
+        SportCardModel item = mItems.get(position);
         holder.tvSportTitle.setText(item.getSportTitle());
         holder.tvSportSubtitle.setText(item.getSportSubtitle());
         holder.tvSportRound.setText(item.getSportRound());
@@ -65,7 +64,7 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
         holder.tvTime.setText(item.getTime());
         holder.tvDayPart.setText(item.getDayPart());
 
-        ((CardView) holder.itemView).setCardBackgroundColor(ContextCompat.getColor(context, item.getBackgroundColorResId()));
+        ((CardView) holder.itemView).setCardBackgroundColor(ContextCompat.getColor(mContext, item.getBackgroundColorResId()));
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -75,8 +74,8 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemClickListener != null) {
-                    itemClickListener.onItemClicked(holder.getAdapterPosition(), holder.ivSportPreview);
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClicked(holder.getAdapterPosition(), holder.ivSportPreview);
                 }
             }
         });
@@ -84,19 +83,19 @@ class SportCardsAdapter extends RecyclerView.Adapter<SportCardsAdapter.SportCard
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return mItems.size();
     }
 
-    public OnItemClickListener getItemClickListener() {
-        return itemClickListener;
+    public OnItemClickListener getOnItemClickListener() {
+        return mOnItemClickListener;
     }
 
-    void setItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     SportCardModel getModelByPos(int pos) {
-        return items.get(pos);
+        return mItems.get(pos);
 
     }
 

@@ -30,7 +30,7 @@ public class FullInfoTabFragment extends Fragment {
 
     private static final String EXTRA_SRORT_CARD_MODEL = "EXTRA_SRORT_CARD_MODEL";
     //    String transitionTag;
-    private SportCardModel sportCardModel;
+    private SportCardModel mSportCardModel;
     private Toolbar toolbar;
     private ImageView ivPhoto;
     private RecyclerView rvAthletics;
@@ -47,10 +47,10 @@ public class FullInfoTabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            sportCardModel = getArguments().getParcelable(EXTRA_SRORT_CARD_MODEL);
+            mSportCardModel = getArguments().getParcelable(EXTRA_SRORT_CARD_MODEL);
         }
         if (savedInstanceState != null) {
-            sportCardModel = savedInstanceState.getParcelable(EXTRA_SRORT_CARD_MODEL);
+            mSportCardModel = savedInstanceState.getParcelable(EXTRA_SRORT_CARD_MODEL);
         }
     }
 
@@ -68,7 +68,7 @@ public class FullInfoTabFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        toolbar.setTitle(sportCardModel.getSportTitle());
+        toolbar.setTitle(mSportCardModel.getSportTitle());
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,8 +76,8 @@ public class FullInfoTabFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), sportCardModel.getBackgroundColorResId()));
-        ivPhoto.setImageResource(sportCardModel.getImageResId());
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), mSportCardModel.getBackgroundColorResId()));
+        ivPhoto.setImageResource(mSportCardModel.getImageResId());
         List<AthleticModel> items = new ArrayList<>();
         for (int i = 10; i > 0; i--) {
             int points = i * 100;
@@ -97,7 +97,7 @@ public class FullInfoTabFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(EXTRA_SRORT_CARD_MODEL, sportCardModel);
+        outState.putParcelable(EXTRA_SRORT_CARD_MODEL, mSportCardModel);
         super.onSaveInstanceState(outState);
     }
 

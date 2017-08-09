@@ -17,7 +17,7 @@ class FanCardScroller extends BaseSmoothScroller {
     private static final float MILLISECONDS_PER_INCH = 200F;
 
     @Nullable
-    private FanCardTimeCallback cardTimeCallback;
+    private FanCardTimeCallback mCardTimeCallback;
 
     /**
      * LinearSmoothScroller for switch views.
@@ -48,8 +48,8 @@ class FanCardScroller extends BaseSmoothScroller {
     @Override
     protected int calculateTimeForScrolling(int dx) {
         int time = super.calculateTimeForScrolling(dx);
-        if (cardTimeCallback != null) {
-            cardTimeCallback.onTimeForScrollingCalculated(getTargetPosition(), time);
+        if (mCardTimeCallback != null) {
+            mCardTimeCallback.onTimeForScrollingCalculated(getTargetPosition(), time);
         }
         return time;
     }
@@ -62,11 +62,11 @@ class FanCardScroller extends BaseSmoothScroller {
 
     @Nullable
     public FanCardTimeCallback getCardTimeCallback() {
-        return cardTimeCallback;
+        return mCardTimeCallback;
     }
 
     void setCardTimeCallback(@Nullable FanCardTimeCallback cardTimeCallback) {
-        this.cardTimeCallback = cardTimeCallback;
+        mCardTimeCallback = cardTimeCallback;
     }
 
     interface FanCardTimeCallback {

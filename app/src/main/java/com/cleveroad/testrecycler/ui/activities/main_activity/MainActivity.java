@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.cleveroad.testrecycler.R;
 import com.cleveroad.testrecycler.ui.fragments.main_fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainFragment mainFragment;
+    private MainFragment mMainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,19 +19,23 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.root, mainFragment = MainFragment.newInstance())
+                    .add(R.id.root, mMainFragment = MainFragment.newInstance())
                     .commit();
         } else {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.root);
             if (fragment instanceof MainFragment) {
-                mainFragment = (MainFragment) fragment;
+                mMainFragment = (MainFragment) fragment;
             }
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (mainFragment == null || !mainFragment.isAdded() || !mainFragment.deselectIfSelected()) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.root);
+        if (fragment instanceof MainFragment) {
+            mMainFragment = (MainFragment) fragment;
+        }
+        if (mMainFragment == null || !mMainFragment.isAdded() || !mMainFragment.deselectIfSelected()) {
             super.onBackPressed();
         }
     }
